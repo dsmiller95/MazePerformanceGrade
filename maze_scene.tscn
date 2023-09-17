@@ -10,10 +10,10 @@
 
 [node name="maze" type="Node3D" parent="."]
 
-[node name="wall" parent="maze" instance=ExtResource("1_5oj1l")]
-
-[node name="Walls" type="Node3D" parent="maze"]
+[node name="Walls" type="Node3D" parent="maze" node_paths=PackedStringArray("maze_data")]
 script = ExtResource("2_uyu8n")
+maze_data = NodePath("../../Maze config")
+maze_wall = ExtResource("1_5oj1l")
 
 [node name="Floors" type="Node3D" parent="maze" node_paths=PackedStringArray("maze_data")]
 script = ExtResource("1_e2t6s")
@@ -21,7 +21,7 @@ floor_prefab = ExtResource("3_bh3s0")
 maze_data = NodePath("../../Maze config")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.994417, -0.0498625, 0.0929932, 0, 0.881303, 0.472551, -0.105518, -0.469913, 0.876383, 4.78175, 6.33053, 8.65971)
+transform = Transform3D(0.994417, -0.0498626, 0.0929932, -0.0397683, 0.639211, 0.768002, -0.0977368, -0.767413, 0.63366, 4.78175, 8.96389, 10.5522)
 
 [node name="Maze config" type="Node" parent="."]
 script = ExtResource("3_5a445")

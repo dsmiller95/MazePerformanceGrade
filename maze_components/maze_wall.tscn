@@ -1,13 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://cfoe6ek2guyew"]
+[gd_scene load_steps=4 format=3 uid="uid://cfoe6ek2guyew"]
+
+[ext_resource type="Script" path="res://maze_components/wall.gd" id="1_h066x"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_beao1"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ri6lu"]
 
 [node name="wall" type="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("1_h066x")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.1, 0, 0, 0)
 mesh = SubResource("BoxMesh_beao1")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
