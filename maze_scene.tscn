@@ -1,14 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://skjlxqitcqv8"]
+[gd_scene load_steps=8 format=3 uid="uid://skjlxqitcqv8"]
 
 [ext_resource type="PackedScene" uid="uid://cfoe6ek2guyew" path="res://maze_components/maze_wall.tscn" id="1_5oj1l"]
 [ext_resource type="Script" path="res://floor_creator.gd" id="1_e2t6s"]
+[ext_resource type="Script" path="res://level.gd" id="1_ihlv7"]
 [ext_resource type="Script" path="res://wall_creator.gd" id="2_uyu8n"]
 [ext_resource type="Script" path="res://maze_config.gd" id="3_5a445"]
 [ext_resource type="PackedScene" uid="uid://b3jqsbhg2qyu6" path="res://maze_components/maze_floor.tscn" id="3_bh3s0"]
+[ext_resource type="PackedScene" uid="uid://2oxdgu03lnbk" path="res://addons/character-controller/example/main/player.tscn" id="6_wannu"]
 
 [node name="Node3D" type="Node3D"]
+script = ExtResource("1_ihlv7")
 
 [node name="maze" type="Node3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 
 [node name="Walls" type="Node3D" parent="maze" node_paths=PackedStringArray("maze_data")]
 script = ExtResource("2_uyu8n")
@@ -20,11 +24,14 @@ script = ExtResource("1_e2t6s")
 floor_prefab = ExtResource("3_bh3s0")
 maze_data = NodePath("../../Maze config")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.994417, -0.0498626, 0.0929932, -0.0397683, 0.639211, 0.768002, -0.0977368, -0.767413, 0.63366, 4.78175, 8.96389, 10.5522)
-
 [node name="Maze config" type="Node" parent="."]
 script = ExtResource("3_5a445")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.729792, -0.526685, 0.435897, 0, 0.637585, 0.77038, -0.683669, -0.562217, 0.465305, 0, 0, 0)
+
+[node name="Player" parent="." instance=ExtResource("6_wannu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.29348, 2.40984, -3.98492)
+
+[node name="floor" parent="." instance=ExtResource("3_bh3s0")]
+transform = Transform3D(19, 0, 0, 0, 1, 0, 0, 0, 19, -5.11427, 0, -3.95609)
