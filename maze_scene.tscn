@@ -50,6 +50,8 @@ mesh = SubResource("BoxMesh_beao1")
 
 [node name="Maze config" type="Node" parent="."]
 script = ExtResource("3_5a445")
+size = Vector2i(25, 25)
+exit = Vector2i(25, 25)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.729792, -0.526685, 0.435897, 0, 0.637585, 0.77038, -0.683669, -0.562217, 0.465305, 0, 0, 0)
