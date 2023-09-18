@@ -1,13 +1,17 @@
 extends Node
 
+@export var hit_all_errors := false
+
 class GenericData:
 	var theta: float
 	var length: int
 
 func _ready():
-	min_of_vects_fails_runtime(Vector2i.DOWN, Vector2i.UP)
-	#WEIRD no try/catch. must bubble errors up all the way every time?
 	array_generic_return_int_with_assign([1, 2, 3])
+	
+	#WEIRD no try/catch. must bubble errors up all the way every time?
+	if(!hit_all_errors): return
+	min_of_vects_fails_runtime(Vector2i.DOWN, Vector2i.UP)
 	array_generic_return_int_fails_runtime([1, 2, 3])
 	array_generic_return_int_with_cast_fails_runtime([1, 2, 3])
 	array_generic_return_generic_data_fails_runtime([GenericData.new(), GenericData.new(), GenericData.new()])

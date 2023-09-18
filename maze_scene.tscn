@@ -96,7 +96,7 @@ maze_cam = NodePath("../maze/Maze camera")
 replay = NodePath("../Maze replay")
 player_tracker = NodePath("../maze/Player tracker")
 
-[node name="Node" type="Node" parent="."]
+[node name="weird typing" type="Node" parent="."]
 script = ExtResource("15_ow4qg")
 
 [connection signal="area_entered" from="maze/end marker/MeshInstance3D/Area3D" to="End game handler" method="_on_end_marker_entered"]
