@@ -6,6 +6,7 @@ class GenericData:
 
 func _ready():
 	min_of_vects_fails_runtime(Vector2i.DOWN, Vector2i.UP)
+	#WEIRD no try/catch. must bubble errors up all the way every time?
 	array_generic_return_int_with_assign([1, 2, 3])
 	array_generic_return_int_fails_runtime([1, 2, 3])
 	array_generic_return_int_with_cast_fails_runtime([1, 2, 3])
