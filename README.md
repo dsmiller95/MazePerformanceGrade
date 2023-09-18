@@ -13,4 +13,4 @@ This is coded by someone with 7 years C# experience, 4 years Unity experience.
 Part of the point of this repo is to learn GDScript! So when I see something weird,
 I'll tag it with `#WEIRD` .
 Usually these are features I'm used to in C# but aren't quite there in GDScript.
-[See all `#WEIRD`](https://github.com/search?q=repo%3Adsmiller95%2FMazePerformanceGrade+WEIRD&type=code)
+[See all `#WEIRD`](https://github.com/search?q=repo%3Adsmiller95%2FMazePerformanceGrade+%23WEIRD&type=code)
