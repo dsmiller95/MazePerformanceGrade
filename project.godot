@@ -62,3 +62,7 @@ move_sprint={
 "deadzone": 0.5,
 "events": []
 }
+change_mouse_input={
+"deadzone": 0.5,
+"events": []
+}
