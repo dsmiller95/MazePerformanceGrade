@@ -20,7 +20,7 @@ func _ready():
 ########## Type hint failure on global utils ###########
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv#
 func min_of_vects_fails_runtime(a: Vector2i, b: Vector2i):
-	#WEIRD runtime: Invalid type in utility function 'min'. Cannot convert argument 1 from Vector2i to float.
+	#WEIRD type error at runtime, not statically type checked. Invalid type in utility function 'min'. Cannot convert argument 1 from Vector2i to float.
 	var min_val = min(a, b)
 
 ################ no real Generic arrays ################
@@ -35,18 +35,18 @@ func array_generic_return_int_with_assign(input: Array[int]) -> Array[int]:
 
 func array_generic_return_int_fails_runtime(input: Array[int]) -> Array[int]:
 	var random_selected := select_random(input, RandomNumberGenerator.new())
-	#WEIRD runtime: Trying to return an array of type "Array" where expected return type is "Array[int]".
+	#WEIRD type error at runtime, not statically type checked. Trying to return an array of type "Array" where expected return type is "Array[int]".
 	return random_selected
 	
 func array_generic_return_int_with_cast_fails_runtime(input: Array[int]) -> Array[int]:
-	#WEIRD runtime: Trying to assign an array of type "Array" to a variable of type "Array[int]".
+	#WEIRD type error at runtime, not statically type checked. Trying to assign an array of type "Array" to a variable of type "Array[int]".
 	var random_selected: Array[int] = select_random(input, RandomNumberGenerator.new()) as Array[int]
 	return random_selected
 	
 
 func array_generic_return_generic_data_fails_runtime(input: Array[GenericData]) -> Array[GenericData]:
 	var random_selected := select_random(input, RandomNumberGenerator.new())
-	#WEIRD runtime: Trying to return an array of type "Array" where expected return type is "Array[GenericData]".
+	#WEIRD type error at runtime, not statically type checked. Trying to return an array of type "Array" where expected return type is "Array[GenericData]".
 	return random_selected
 	
 func select_random(input: Array, rng: RandomNumberGenerator) -> Array:
