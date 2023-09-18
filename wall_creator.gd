@@ -99,7 +99,7 @@ class Reachability:
 		reachable_dicts = {}
 	
 	func in_bounds(position: Vector2i):
-		if(position.x <= 0 || position.y <= 0):
+		if(position.x < 0 || position.y < 0):
 			return false
 		if(position.x >= size.x || position.y >= size.y):
 			return false
@@ -110,19 +110,32 @@ class Reachability:
 			return true
 		return false
 	
-	func reach_between(a : Vector2i, b: Vector2i):
-		reachable_dicts[_to_index(a)] = null
-		reachable_dicts[_to_index(b)] = null
-		edges.append(TileEdge.new(a, b))
+	func assert_fully_reachable():
+		for x in size.x:
+			for y in size.y:
+				var pos = Vector2i(x, y)
+				if(! reachable(pos)):
+					print("ERROR: cannot reach " + str(pos))
+	
+	func reach_between(already_reached: Vector2i, newly_reached: Vector2i):
+		if _to_index(already_reached) not in reachable_dicts:
+			print("ERROR: trying to reach from unreached cell")
+		if _to_index(newly_reached) in reachable_dicts:
+			print("ERROR: reaching into an already reached cell")
+		reachable_dicts[_to_index(newly_reached)] = null
+		edges.append(TileEdge.new(already_reached, newly_reached))
 	
 	func _to_index(a: Vector2i) -> int:
 		return a.x + a.y * (size.x + 1)
 		
 	func get_walls() -> Array[TileEdge]:
-		var traversable_edges : Array[int] = []
+		var traversable_edges : Dictionary = {}
 		for edge in edges:
-			traversable_edges.append(edge.get_stable_id_in_domain(size))
+			traversable_edges[edge.get_stable_id_in_domain(size)] = null
 		
+		if(traversable_edges.size() < edges.size()):
+			print("Warning: id collision, less edge ids than there are edges")
+			
 		var walls : Array[TileEdge] = []
 		for edge in WallCreator.all_edges(size):
 			if edge.get_stable_id_in_domain(size) in traversable_edges:
@@ -136,6 +149,7 @@ func randomized_dfs_walls(size: Vector2i, rng: RandomNumberGenerator):
 	var origin := Vector2i(rng.randi_range(0, size.x - 1), rng.randi_range(0, size.y - 1))
 	
 	internal_randomize_dfs_walls(reachable, origin)
+	reachable.assert_fully_reachable()
 	
 	return reachable.get_walls()
 
@@ -146,32 +160,6 @@ func internal_randomize_dfs_walls(reach: Reachability, cell: Vector2i):
 			continue
 		reach.reach_between(cell, next_search)
 		internal_randomize_dfs_walls(reach, next_search)
-	
-		
-
-func walls_from_reachable(size: Vector2i, edges: Array[TileEdge]):
-	var tmp_walls: Array[TileEdge]
-	for x in maze_data.size.x - 1:
-		for y in maze_data.size.y:
-			var new_edge = TileEdge.new(
-				Vector2i(x, y),
-				Vector2i(x + 1, y)
-			)
-			if new_edge in edges:
-				continue
-			tmp_walls.append(new_edge)
-			
-	for x in maze_data.size.x:
-		for y in maze_data.size.y - 1:
-			var new_edge = TileEdge.new(
-				Vector2i(x, y),
-				Vector2i(x, y + 1)
-			)
-			if new_edge in edges:
-				continue
-			tmp_walls.append(new_edge)
-	return tmp_walls;
-
 
 
 
