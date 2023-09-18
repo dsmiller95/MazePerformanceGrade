@@ -9,18 +9,23 @@ class_name MazeReplay
 
 var is_replaying_path := false
 
-func begin_path_replay(path: Array[HistoricPosition]):
+func begin_path_replay(path: Array[HistoricPosition], replay_time_ms: int = 10000):
 	if(is_replaying_path):
 		print("ERROR: currently playing path, cannot play another")
 		return
 	is_replaying_path = true
+	
+	var total_time = path.back().time_ms - path[0].time_ms
+	var adjustment = replay_time_ms / float(total_time)
+	
 	var scene_tree := get_tree()
 	
 	var last_path = path[0]
 	highlight_tile(last_path.tile, highlight_material)
 	
 	for location in path:
-		await scene_tree.create_timer((location.time_ms - last_path.time_ms) / 1000.0).timeout
+		var adjusted_ms = (location.time_ms - last_path.time_ms) * adjustment
+		await scene_tree.create_timer(adjusted_ms / 1000.0).timeout
 		highlight_tile(last_path.tile, traveled_material)
 		highlight_tile(location.tile, highlight_material)
 		last_path = location

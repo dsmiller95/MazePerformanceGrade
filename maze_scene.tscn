@@ -65,16 +65,16 @@ script = ExtResource("8_ijs5i")
 tracked = NodePath("../../Player")
 
 [node name="Maze camera" type="Camera3D" parent="maze" node_paths=PackedStringArray("maze_config")]
-transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, 0.5, 0, -0.5, -2.18557e-08, 12.5, 2, 15)
+transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, 0.5, 0, -0.5, -2.18557e-08, 7.5, 2, 5)
 projection = 1
-size = 60.0
+size = 30.0
 script = ExtResource("9_5pn2c")
 maze_config = NodePath("../../Maze config")
 
 [node name="Maze config" type="Node" parent="."]
 script = ExtResource("3_5a445")
-size = Vector2i(25, 30)
-exit = Vector2i(24, 29)
+size = Vector2i(15, 10)
+exit = Vector2i(14, 9)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.729792, -0.526685, 0.435897, 0, 0.637585, 0.77038, -0.683669, -0.562217, 0.465305, 0, 0, 0)
