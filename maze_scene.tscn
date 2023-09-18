@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://skjlxqitcqv8"]
+[gd_scene load_steps=19 format=3 uid="uid://skjlxqitcqv8"]
 
 [ext_resource type="PackedScene" uid="uid://cfoe6ek2guyew" path="res://maze_components/maze_wall.tscn" id="1_5oj1l"]
 [ext_resource type="Script" path="res://floor_creator.gd" id="1_e2t6s"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" path="res://maze_end_handler.gd" id="12_58wel"]
 [ext_resource type="Material" uid="uid://wh8m6jb8ktpj" path="res://addons/character-controller/example/main/materials/water.tres" id="12_edk0e"]
 [ext_resource type="Material" uid="uid://ckvcdcn2iue87" path="res://addons/character-controller/example/main/materials/wood.tres" id="12_x4d7k"]
+[ext_resource type="Script" path="res://typing_weird.gd" id="15_ow4qg"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ammq3"]
 transparency = 1
@@ -94,6 +95,9 @@ script = ExtResource("12_58wel")
 maze_cam = NodePath("../maze/Maze camera")
 replay = NodePath("../Maze replay")
 player_tracker = NodePath("../maze/Player tracker")
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("15_ow4qg")
 
 [connection signal="area_entered" from="maze/end marker/MeshInstance3D/Area3D" to="End game handler" method="_on_end_marker_entered"]
 [connection signal="body_entered" from="maze/end marker/MeshInstance3D/Area3D" to="End game handler" method="_on_end_marker_entered"]

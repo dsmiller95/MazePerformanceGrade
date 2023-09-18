@@ -15,3 +15,21 @@ static func shuffle_naive(arr: Array, rng: RandomNumberGenerator):
 		var tmp = arr[swap]
 		arr[swap] = arr[i]
 		arr[i] = tmp
+
+#WEIRD no generic funcs, no generic callable return type
+static func except_by(source: Array, except: Array, identity: Callable):
+	#WEIRD no generic dict
+	#WEIRD no set type
+	var except_idents: Dictionary = {}
+	for a in except:
+		var ident = identity.call(a)
+		except_idents[ident] = null
+	
+	var new_arr = []
+	for a in source:
+		var ident = identity.call(a)
+		if ident in except_idents:
+			continue
+		new_arr.append(a)
+	return new_arr
+	

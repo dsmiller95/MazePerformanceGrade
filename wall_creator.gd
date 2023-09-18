@@ -129,19 +129,16 @@ class Reachability:
 		return a.x + a.y * (size.x + 1)
 		
 	func get_walls() -> Array[TileEdge]:
-		var traversable_edges : Dictionary = {}
-		for edge in edges:
-			traversable_edges[edge.get_stable_id_in_domain(size)] = null
+		var except_walls = Utils.except_by(
+			WallCreator.all_edges(size), 
+			edges,
+			func (edge): return edge.get_stable_id_in_domain(size)
+			)
 		
-		if(traversable_edges.size() < edges.size()):
-			print("Warning: id collision, less edge ids than there are edges")
-			
-		var walls : Array[TileEdge] = []
-		for edge in WallCreator.all_edges(size):
-			if edge.get_stable_id_in_domain(size) in traversable_edges:
-				continue
-			walls.append(edge)
-		return walls
+		var except_walls_typed: Array[TileEdge]
+		except_walls_typed.assign(except_walls)
+		
+		return except_walls_typed
 		
 
 func randomized_dfs_walls(size: Vector2i, rng: RandomNumberGenerator):
