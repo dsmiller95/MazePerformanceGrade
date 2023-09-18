@@ -22,7 +22,7 @@ emission = Color(0.698039, 0.470588, 0.698039, 1)
 script = ExtResource("1_ihlv7")
 
 [node name="maze" type="Node3D" parent="."]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 28.6419)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 
 [node name="Walls" type="Node3D" parent="maze" node_paths=PackedStringArray("maze_data")]
 script = ExtResource("2_uyu8n")
