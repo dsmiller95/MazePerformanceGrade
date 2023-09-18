@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://skjlxqitcqv8"]
+[gd_scene load_steps=18 format=3 uid="uid://skjlxqitcqv8"]
 
 [ext_resource type="PackedScene" uid="uid://cfoe6ek2guyew" path="res://maze_components/maze_wall.tscn" id="1_5oj1l"]
 [ext_resource type="Script" path="res://floor_creator.gd" id="1_e2t6s"]
@@ -10,6 +10,10 @@
 [ext_resource type="PackedScene" uid="uid://2oxdgu03lnbk" path="res://addons/character-controller/example/main/player.tscn" id="6_wannu"]
 [ext_resource type="Script" path="res://path_history.gd" id="8_ijs5i"]
 [ext_resource type="Script" path="res://maze_components/maze_camera.gd" id="9_5pn2c"]
+[ext_resource type="Script" path="res://maze_replay.gd" id="11_pp7bt"]
+[ext_resource type="Script" path="res://maze_end_handler.gd" id="12_58wel"]
+[ext_resource type="Material" uid="uid://wh8m6jb8ktpj" path="res://addons/character-controller/example/main/materials/water.tres" id="12_edk0e"]
+[ext_resource type="Material" uid="uid://ckvcdcn2iue87" path="res://addons/character-controller/example/main/materials/wood.tres" id="12_x4d7k"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ammq3"]
 transparency = 1
@@ -18,6 +22,8 @@ emission_enabled = true
 emission = Color(0.698039, 0.470588, 0.698039, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_beao1"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yv4r8"]
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_ihlv7")
@@ -44,25 +50,29 @@ entry_feature = NodePath("../../Player")
 [node name="end marker" type="Node3D" parent="maze"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="maze/end marker"]
-transform = Transform3D(0.3, 0, 0, 0, 10, 0, 0, 0, 0.3, 0, 5, 0)
+transform = Transform3D(0.3, 0, 0, 0, 10, 0, 0, 0, 0.3, 0, 5.25, 0)
 material_overlay = SubResource("StandardMaterial3D_ammq3")
 mesh = SubResource("BoxMesh_beao1")
+
+[node name="Area3D" type="Area3D" parent="maze/end marker/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="maze/end marker/MeshInstance3D/Area3D"]
+shape = SubResource("BoxShape3D_yv4r8")
 
 [node name="Player tracker" type="Node3D" parent="maze" node_paths=PackedStringArray("tracked")]
 script = ExtResource("8_ijs5i")
 tracked = NodePath("../../Player")
 
 [node name="Maze camera" type="Camera3D" parent="maze" node_paths=PackedStringArray("maze_config")]
-transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, 0.5, 0, -0.5, -2.18557e-08, 12.5, 2, 12.5)
+transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, 0.5, 0, -0.5, -2.18557e-08, 5, 2, 5)
 projection = 1
-size = 25.0
+size = 20.0
 script = ExtResource("9_5pn2c")
 maze_config = NodePath("../../Maze config")
 
 [node name="Maze config" type="Node" parent="."]
 script = ExtResource("3_5a445")
-size = Vector2i(25, 25)
-exit = Vector2i(25, 25)
+exit = Vector2i(9, 9)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.729792, -0.526685, 0.435897, 0, 0.637585, 0.77038, -0.683669, -0.562217, 0.465305, 0, 0, 0)
@@ -71,4 +81,18 @@ transform = Transform3D(0.729792, -0.526685, 0.435897, 0, 0.637585, 0.77038, -0.
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 5, 0.5)
 rotation_to_move = false
 
-[node name="Maze replay" type="Node3D" parent="."]
+[node name="Maze replay" type="Node3D" parent="." node_paths=PackedStringArray("floors", "maze_data")]
+script = ExtResource("11_pp7bt")
+floors = NodePath("../maze/Floors")
+maze_data = NodePath("../Maze config")
+highlight_material = ExtResource("12_x4d7k")
+traveled_material = ExtResource("12_edk0e")
+
+[node name="End game handler" type="Node" parent="." node_paths=PackedStringArray("maze_cam", "replay", "player_tracker")]
+script = ExtResource("12_58wel")
+maze_cam = NodePath("../maze/Maze camera")
+replay = NodePath("../Maze replay")
+player_tracker = NodePath("../maze/Player tracker")
+
+[connection signal="area_entered" from="maze/end marker/MeshInstance3D/Area3D" to="End game handler" method="_on_end_marker_entered"]
+[connection signal="body_entered" from="maze/end marker/MeshInstance3D/Area3D" to="End game handler" method="_on_end_marker_entered"]

@@ -19,5 +19,5 @@ func _process(delta):
 	pass
 
 func position_camera():
-	size = max(maze_config.size.x, maze_config.size.y)
+	size = max(maze_config.size.x, maze_config.size.y) * 2
 	position = MazeConfig.to_3d_from_2d(maze_config.size) / 2 + Vector3.UP * 2
