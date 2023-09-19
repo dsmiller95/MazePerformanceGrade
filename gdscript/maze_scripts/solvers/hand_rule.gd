@@ -10,8 +10,6 @@ func solve_path(maze: Reachability, position: Vector2i, direction: int, target: 
 	var current_step := 0
 	var max_steps := (maze.size.x * maze.size.y) ** 2
 	
-	var reachable_edge_ids := maze.all_edge_ids()
-	
 	var check_dir = 1 if keep_right else 3
 	var search_dir = 3 if keep_right else 1
 	
@@ -19,7 +17,7 @@ func solve_path(maze: Reachability, position: Vector2i, direction: int, target: 
 	while position != target && current_step < max_steps:
 		var forward_tile : Vector2i = position + Reachability.neighbors[direction]
 		var forward_edge := TileEdge.new(position, forward_tile)
-		var can_move_forward = maze.in_bounds(forward_tile) && maze.edge_id(forward_edge) in reachable_edge_ids
+		var can_move_forward = maze.in_bounds(forward_tile) && maze.traversable(forward_edge)
 		
 		if (can_move_forward):
 			position = forward_tile

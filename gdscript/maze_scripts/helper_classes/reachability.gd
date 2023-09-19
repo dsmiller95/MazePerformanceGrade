@@ -31,6 +31,13 @@ func reachable(position: Vector2i):
 		return true
 	return false
 
+func traversable(test_edge: TileEdge):
+	var test_edge_id = edge_id(test_edge) 
+	for edge in edges:
+		if(edge_id(edge) == test_edge_id):
+			return true
+	return false
+
 func assert_fully_reachable():
 	for x in size.x:
 		for y in size.y:
