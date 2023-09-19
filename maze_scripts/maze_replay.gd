@@ -29,6 +29,8 @@ func begin_path_replay(path: Array[HistoricPosition], replay_time_ms: int = 1000
 		highlight_tile(last_path.tile, traveled_material)
 		highlight_tile(location.tile, highlight_material)
 		last_path = location
+		
+	is_replaying_path = false
 
 func highlight_tile(tile: Vector2i, mat: Material):
 	print("replaying over tile " + str(tile))

@@ -3,6 +3,7 @@ extends Node3D
 class_name PathHistory
 
 @export var tracked : Node3D
+@export var maze_config : MazeConfig
 
 
 var path_history: Array[HistoricPosition]
@@ -30,6 +31,8 @@ func _physics_process(delta):
 	_log_next_position(current_position)
 
 func _log_next_position(current: Vector2i):
+	if !maze_config.in_bounds(current):
+		return
 	path_history.append(HistoricPosition.new(current))
 	alt_history.append(current)
 	print("Logged player position: " + str(current))
