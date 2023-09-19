@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://c0vcnvlnscvpa"]
+
+[node name="UI" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 142.0
+offset_top = -308.0
+offset_right = 553.0
+offset_bottom = -172.0
+grow_horizontal = 0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[center]"
+fit_content = true

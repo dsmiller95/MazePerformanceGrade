@@ -1,0 +1,28 @@
+[gd_scene load_steps=7 format=3 uid="uid://bq7aq8hpt7qpi"]
+
+[ext_resource type="PackedScene" uid="uid://dldfnuewkps0f" path="res://gdscript/gd_script_game.tscn" id="1_po80r"]
+[ext_resource type="Script" path="res://csharp/MazeConfig.cs" id="2_gid8l"]
+[ext_resource type="Script" path="res://csharp/WallCreator.cs" id="3_lb8hw"]
+[ext_resource type="PackedScene" uid="uid://cfoe6ek2guyew" path="res://maze_components/maze_wall.tscn" id="4_wma30"]
+[ext_resource type="Script" path="res://csharp/FloorCreator.cs" id="5_fd4yy"]
+[ext_resource type="PackedScene" uid="uid://b3jqsbhg2qyu6" path="res://maze_components/maze_floor.tscn" id="6_w0rno"]
+
+[node name="Csharp game" instance=ExtResource("1_po80r")]
+
+[node name="Maze config" parent="." index="0"]
+script = ExtResource("2_gid8l")
+
+[node name="Walls" parent="maze world/maze" index="0" node_paths=PackedStringArray("mazeConfig")]
+script = ExtResource("3_lb8hw")
+wallPrefab = ExtResource("4_wma30")
+mazeConfig = NodePath("../../../Maze config")
+
+[node name="Floors" parent="maze world/maze" index="1" node_paths=PackedStringArray("mazeConfig")]
+script = ExtResource("5_fd4yy")
+floorPrefab = ExtResource("6_w0rno")
+mazeConfig = NodePath("../../../Maze config")
+
+[node name="right hand rule" parent="solvers" index="0"]
+keep_right = null
+
+[editable path="UI"]

@@ -1,10 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://dldfnuewkps0f"]
+[gd_scene load_steps=20 format=3 uid="uid://dldfnuewkps0f"]
 
 [ext_resource type="Script" path="res://gdscript/level.gd" id="1_pycpv"]
 [ext_resource type="Script" path="res://gdscript/maze_scripts/wall_creator.gd" id="2_g0eno"]
-[ext_resource type="PackedScene" uid="uid://cfoe6ek2guyew" path="res://gdscript/maze_components/maze_wall.tscn" id="3_ecvaq"]
+[ext_resource type="PackedScene" uid="uid://c0vcnvlnscvpa" path="res://ui.tscn" id="2_pd5qx"]
 [ext_resource type="Script" path="res://gdscript/maze_scripts/floor_creator.gd" id="4_1udk4"]
-[ext_resource type="PackedScene" uid="uid://b3jqsbhg2qyu6" path="res://gdscript/maze_components/maze_floor.tscn" id="5_vdge3"]
+[ext_resource type="PackedScene" uid="uid://cfoe6ek2guyew" path="res://maze_components/maze_wall.tscn" id="5_bkyv3"]
+[ext_resource type="PackedScene" uid="uid://b3jqsbhg2qyu6" path="res://maze_components/maze_floor.tscn" id="5_vdge3"]
 [ext_resource type="Script" path="res://gdscript/maze_scripts/maze_features.gd" id="6_ii38b"]
 [ext_resource type="Script" path="res://gdscript/maze_scripts/path_history.gd" id="7_srfra"]
 [ext_resource type="Script" path="res://gdscript/maze_scripts/maze_camera.gd" id="8_s1dlb"]
@@ -32,25 +33,7 @@ emission = Color(0.698039, 0.470588, 0.698039, 1)
 script = ExtResource("14_3ksu3")
 exit = Vector2i(9, 9)
 
-[node name="UI" type="Node2D" parent="."]
-
-[node name="Camera2D" type="Camera2D" parent="UI"]
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = 142.0
-offset_top = -308.0
-offset_right = 553.0
-offset_bottom = -172.0
-grow_horizontal = 0
-
-[node name="RichTextLabel" type="RichTextLabel" parent="UI/VBoxContainer"]
-layout_mode = 2
-bbcode_enabled = true
-text = "[center]"
-fit_content = true
+[node name="UI" parent="." instance=ExtResource("2_pd5qx")]
 
 [node name="maze world" type="Node3D" parent="."]
 script = ExtResource("1_pycpv")
@@ -61,7 +44,7 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 [node name="Walls" type="Node3D" parent="maze world/maze" node_paths=PackedStringArray("maze_data")]
 script = ExtResource("2_g0eno")
 maze_data = NodePath("../../../Maze config")
-maze_wall = ExtResource("3_ecvaq")
+maze_wall = ExtResource("5_bkyv3")
 
 [node name="Floors" type="Node3D" parent="maze world/maze" node_paths=PackedStringArray("maze_data")]
 script = ExtResource("4_1udk4")
@@ -92,9 +75,9 @@ tracked = NodePath("../../Player")
 maze_config = NodePath("../../../Maze config")
 
 [node name="Maze camera" type="Camera3D" parent="maze world/maze" node_paths=PackedStringArray("maze_config")]
-transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, 0.5, 0, -0.5, -2.18557e-08, 10, 2, 10)
+transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, 0.5, 0, -0.5, -2.18557e-08, 5, 2, 5)
 projection = 1
-size = 40.0
+size = 20.0
 script = ExtResource("8_s1dlb")
 maze_config = NodePath("../../../Maze config")
 
@@ -133,3 +116,5 @@ keep_right = false
 
 [connection signal="area_entered" from="maze world/maze/end marker/MeshInstance3D/Area3D" to="End game handler" method="_on_end_marker_entered" flags=18]
 [connection signal="body_entered" from="maze world/maze/end marker/MeshInstance3D/Area3D" to="End game handler" method="_on_end_marker_entered" flags=18]
+
+[editable path="UI"]
