@@ -1,7 +1,6 @@
 extends Node
 class_name MazeConfig       
    
-
 @export var size := Vector2i(10, 10)
 
 @export var entry := Vector2i(0, 0)

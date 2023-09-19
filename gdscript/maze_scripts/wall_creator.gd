@@ -4,6 +4,7 @@ class_name WallCreator
 @export var maze_data : MazeConfig
 
 ## Must implement Node3D and be a prefab. how can I enforce this, what the fuck
+#WEIRD I can't enforce a reference to a resource must reference a Node3D scene? or another specific type?
 @export var maze_wall : Resource
 
 var walls: Array[TileEdge]
@@ -16,9 +17,8 @@ func _ready():
 	for wall in walls:
 		wall.spawn_wall_at_edge(maze_wall, self)
 
-	
+
 func random_walls(size: Vector2i, rng: RandomNumberGenerator):
-	
 	var tmp_walls: Array[TileEdge]
 	for x in maze_data.size.x - 1:
 		for y in maze_data.size.y:
@@ -39,25 +39,6 @@ func random_walls(size: Vector2i, rng: RandomNumberGenerator):
 			))
 	return tmp_walls;
 
-static func all_edges(size: Vector2i):
-	var tmp_walls: Array[TileEdge]
-	for x in size.x - 1:
-		for y in size.y:
-			tmp_walls.append(TileEdge.new(
-				Vector2i(x, y),
-				Vector2i(x + 1, y)
-			))
-			
-	for x in size.x:
-		for y in size.y - 1:
-			tmp_walls.append(TileEdge.new(
-				Vector2i(x, y),
-				Vector2i(x, y + 1)
-			))
-	return tmp_walls;
-
-
-		
 
 func randomized_dfs_walls(size: Vector2i, rng: RandomNumberGenerator):
 	reachable = Reachability.new(size)

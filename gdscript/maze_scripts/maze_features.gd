@@ -10,8 +10,3 @@ func _ready():
 		exit_feature.global_position = to_global(MazeConfig.to_3d_from_2d(maze_data.exit))
 	if entry_feature:
 		entry_feature.global_position = to_global(MazeConfig.to_3d_from_2d(maze_data.entry))
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass

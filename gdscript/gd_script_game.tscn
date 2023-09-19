@@ -1,0 +1,135 @@
+[gd_scene load_steps=19 format=3 uid="uid://dldfnuewkps0f"]
+
+[ext_resource type="Script" path="res://gdscript/level.gd" id="1_pycpv"]
+[ext_resource type="Script" path="res://gdscript/maze_scripts/wall_creator.gd" id="2_g0eno"]
+[ext_resource type="PackedScene" uid="uid://cfoe6ek2guyew" path="res://gdscript/maze_components/maze_wall.tscn" id="3_ecvaq"]
+[ext_resource type="Script" path="res://gdscript/maze_scripts/floor_creator.gd" id="4_1udk4"]
+[ext_resource type="PackedScene" uid="uid://b3jqsbhg2qyu6" path="res://gdscript/maze_components/maze_floor.tscn" id="5_vdge3"]
+[ext_resource type="Script" path="res://gdscript/maze_scripts/maze_features.gd" id="6_ii38b"]
+[ext_resource type="Script" path="res://gdscript/maze_scripts/path_history.gd" id="7_srfra"]
+[ext_resource type="Script" path="res://gdscript/maze_scripts/maze_camera.gd" id="8_s1dlb"]
+[ext_resource type="PackedScene" uid="uid://2oxdgu03lnbk" path="res://addons/character-controller/example/main/player.tscn" id="9_0chkt"]
+[ext_resource type="Script" path="res://gdscript/maze_scripts/maze_replay.gd" id="10_yyr1k"]
+[ext_resource type="Material" uid="uid://ckvcdcn2iue87" path="res://addons/character-controller/example/main/materials/wood.tres" id="11_vdopx"]
+[ext_resource type="Material" uid="uid://wh8m6jb8ktpj" path="res://addons/character-controller/example/main/materials/water.tres" id="12_k1xje"]
+[ext_resource type="Script" path="res://gdscript/maze_scripts/maze_end_handler.gd" id="13_o1jk6"]
+[ext_resource type="Script" path="res://gdscript/maze_scripts/maze_config.gd" id="14_3ksu3"]
+[ext_resource type="Script" path="res://gdscript/maze_scripts/solvers/hand_rule.gd" id="15_gvso5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ammq3"]
+transparency = 1
+albedo_color = Color(0.282353, 0.482353, 0.694118, 0.909804)
+emission_enabled = true
+emission = Color(0.698039, 0.470588, 0.698039, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_beao1"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yv4r8"]
+
+[node name="GDScript game" type="Node"]
+
+[node name="Maze config" type="Node" parent="."]
+script = ExtResource("14_3ksu3")
+exit = Vector2i(9, 9)
+
+[node name="UI" type="Node2D" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="UI"]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 142.0
+offset_top = -308.0
+offset_right = 553.0
+offset_bottom = -172.0
+grow_horizontal = 0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[center]"
+fit_content = true
+
+[node name="maze world" type="Node3D" parent="."]
+script = ExtResource("1_pycpv")
+
+[node name="maze" type="Node3D" parent="maze world"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+
+[node name="Walls" type="Node3D" parent="maze world/maze" node_paths=PackedStringArray("maze_data")]
+script = ExtResource("2_g0eno")
+maze_data = NodePath("../../../Maze config")
+maze_wall = ExtResource("3_ecvaq")
+
+[node name="Floors" type="Node3D" parent="maze world/maze" node_paths=PackedStringArray("maze_data")]
+script = ExtResource("4_1udk4")
+floor_prefab = ExtResource("5_vdge3")
+maze_data = NodePath("../../../Maze config")
+
+[node name="Features" type="Node3D" parent="maze world/maze" node_paths=PackedStringArray("maze_data", "exit_feature", "entry_feature")]
+script = ExtResource("6_ii38b")
+maze_data = NodePath("../../../Maze config")
+exit_feature = NodePath("../end marker")
+entry_feature = NodePath("../../Player")
+
+[node name="end marker" type="Node3D" parent="maze world/maze"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="maze world/maze/end marker"]
+transform = Transform3D(0.3, 0, 0, 0, 10, 0, 0, 0, 0.3, 0, 5.25, 0)
+material_overlay = SubResource("StandardMaterial3D_ammq3")
+mesh = SubResource("BoxMesh_beao1")
+
+[node name="Area3D" type="Area3D" parent="maze world/maze/end marker/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="maze world/maze/end marker/MeshInstance3D/Area3D"]
+shape = SubResource("BoxShape3D_yv4r8")
+
+[node name="Player tracker" type="Node3D" parent="maze world/maze" node_paths=PackedStringArray("tracked", "maze_config")]
+script = ExtResource("7_srfra")
+tracked = NodePath("../../Player")
+maze_config = NodePath("../../../Maze config")
+
+[node name="Maze camera" type="Camera3D" parent="maze world/maze" node_paths=PackedStringArray("maze_config")]
+transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, 0.5, 0, -0.5, -2.18557e-08, 10, 2, 10)
+projection = 1
+size = 40.0
+script = ExtResource("8_s1dlb")
+maze_config = NodePath("../../../Maze config")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="maze world"]
+transform = Transform3D(0.729792, -0.526685, 0.435897, 0, 0.637585, 0.77038, -0.683669, -0.562217, 0.465305, 0, 0, 0)
+
+[node name="Player" parent="maze world" instance=ExtResource("9_0chkt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 5, 0.5)
+rotation_to_move = false
+
+[node name="Maze replay" type="Node3D" parent="maze world" node_paths=PackedStringArray("floors", "maze_data")]
+script = ExtResource("10_yyr1k")
+floors = NodePath("../maze/Floors")
+maze_data = NodePath("../../Maze config")
+highlight_material = ExtResource("11_vdopx")
+traveled_material = ExtResource("12_k1xje")
+
+[node name="End game handler" type="Node" parent="." node_paths=PackedStringArray("maze_cam", "replay", "score_text", "maze_config", "walls", "player_tracker", "maze_solvers")]
+script = ExtResource("13_o1jk6")
+maze_cam = NodePath("../maze world/maze/Maze camera")
+replay = NodePath("../maze world/Maze replay")
+score_text = NodePath("../UI/VBoxContainer/RichTextLabel")
+maze_config = NodePath("../Maze config")
+walls = NodePath("../maze world/maze/Walls")
+player_tracker = NodePath("../maze world/maze/Player tracker")
+maze_solvers = [NodePath("../solvers/right hand rule"), NodePath("../solvers/left hand rule")]
+
+[node name="solvers" type="Node" parent="."]
+
+[node name="right hand rule" type="Node" parent="solvers"]
+script = ExtResource("15_gvso5")
+
+[node name="left hand rule" type="Node" parent="solvers"]
+script = ExtResource("15_gvso5")
+keep_right = false
+
+[connection signal="area_entered" from="maze world/maze/end marker/MeshInstance3D/Area3D" to="End game handler" method="_on_end_marker_entered" flags=18]
+[connection signal="body_entered" from="maze world/maze/end marker/MeshInstance3D/Area3D" to="End game handler" method="_on_end_marker_entered" flags=18]

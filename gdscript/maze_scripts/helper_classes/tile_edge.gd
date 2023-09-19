@@ -24,7 +24,7 @@ func spawn_wall_at_edge(maze_wall: Resource, parent: Node):
 
 	var center = (worldA + worldB) / 2
 	var forward = (worldA - worldB).normalized()
-	var new_wall : Wall = maze_wall.instantiate() # explicit cast :(
+	var new_wall : Node3D = maze_wall.instantiate() # explicit cast :(
 	new_wall.transform.origin = center
 	new_wall.transform.basis = Basis.looking_at(forward)
 	parent.add_child(new_wall)

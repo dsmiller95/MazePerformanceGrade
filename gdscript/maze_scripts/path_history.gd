@@ -9,11 +9,6 @@ class_name PathHistory
 var path_history: Array[HistoricPosition]
 var alt_history: Array[Vector2i]
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
 func _get_current_tile_position() -> Vector2i:
 	var local_position = to_local(tracked.global_position)
 	return Vector2i(round(local_position.x), round(local_position.z))

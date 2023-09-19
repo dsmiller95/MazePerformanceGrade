@@ -17,8 +17,3 @@ func _ready():
 			new_node.transform.origin = Vector3(x, 0, y)
 			add_child(new_node)
 			floors_indexed[x + y * size.x] = new_node
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass

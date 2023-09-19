@@ -60,7 +60,7 @@ func all_edge_ids() -> Array[int]:
 
 func get_walls() -> Array[TileEdge]:
 	var except_walls = Utils.except_by(
-		WallCreator.all_edges(size), 
+		all_edges(size), 
 		edges,
 		func (edge): return edge_id(edge)
 		)
@@ -69,3 +69,20 @@ func get_walls() -> Array[TileEdge]:
 	except_walls_typed.assign(except_walls)
 	
 	return except_walls_typed
+
+static func all_edges(size: Vector2i):
+	var tmp_walls: Array[TileEdge]
+	for x in size.x - 1:
+		for y in size.y:
+			tmp_walls.append(TileEdge.new(
+				Vector2i(x, y),
+				Vector2i(x + 1, y)
+			))
+			
+	for x in size.x:
+		for y in size.y - 1:
+			tmp_walls.append(TileEdge.new(
+				Vector2i(x, y),
+				Vector2i(x, y + 1)
+			))
+	return tmp_walls;
