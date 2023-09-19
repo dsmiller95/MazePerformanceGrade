@@ -43,13 +43,10 @@ offset_right = 553.0
 offset_bottom = -172.0
 grow_horizontal = 0
 
-[node name="RichTextLabel2" type="RichTextLabel" parent="UI/VBoxContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/VBoxContainer"]
 layout_mode = 2
 bbcode_enabled = true
-text = "[center][center]more wordS!dd 
-d [/center]d
-ddd
-[/center]d"
+text = "[center]"
 fit_content = true
 
 [node name="maze world" type="Node3D" parent="."]
@@ -115,10 +112,11 @@ traveled_material = ExtResource("12_mnxvw")
 [node name="weird typing" type="Node" parent="."]
 script = ExtResource("13_2xkdn")
 
-[node name="End game handler" type="Node" parent="." node_paths=PackedStringArray("maze_cam", "replay", "maze_config", "walls", "player_tracker", "maze_solvers")]
+[node name="End game handler" type="Node" parent="." node_paths=PackedStringArray("maze_cam", "replay", "score_text", "maze_config", "walls", "player_tracker", "maze_solvers")]
 script = ExtResource("14_3hk33")
 maze_cam = NodePath("../maze world/maze/Maze camera")
 replay = NodePath("../maze world/Maze replay")
+score_text = NodePath("../UI/VBoxContainer/RichTextLabel")
 maze_config = NodePath("../Maze config")
 walls = NodePath("../maze world/maze/Walls")
 player_tracker = NodePath("../maze world/maze/Player tracker")
