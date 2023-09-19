@@ -39,9 +39,9 @@ func assert_fully_reachable():
 				print("ERROR: cannot reach " + str(pos))
 
 func reach_between(already_reached: Vector2i, newly_reached: Vector2i):
-	if _to_index(already_reached) not in reachable_dicts:
+	if not reachable(already_reached):
 		print("ERROR: trying to reach from unreached cell")
-	if _to_index(newly_reached) in reachable_dicts:
+	if reachable(newly_reached):
 		print("ERROR: reaching into an already reached cell")
 	reachable_dicts[_to_index(newly_reached)] = null
 	edges.append(TileEdge.new(already_reached, newly_reached))

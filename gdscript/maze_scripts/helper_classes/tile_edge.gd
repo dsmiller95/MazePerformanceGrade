@@ -16,7 +16,9 @@ static func to_3d_from_2d(flat: Vector2i):
 func get_stable_id_in_domain(size: Vector2i) -> int:
 	var min_vec = Utils.partswise(tileA, tileB, Utils.min)
 	var max_vec = Utils.partswise(tileA, tileB, Utils.max)
-	return min_vec.x + min_vec.y * size.x + max_vec.x * size.x * size.y + max_vec.y + size.x * size.y * size.x
+	var min_val = min_vec.x + min_vec.y * size.x; 
+	var max_val = max_vec.x + max_vec.y * size.x; 
+	return min_val + max_val * size.y * size.x
 
 func spawn_wall_at_edge(maze_wall: Resource, parent: Node):
 	var worldA = to_3d_from_2d(tileA)
