@@ -15,7 +15,7 @@
 [ext_resource type="Script" path="res://typing_weird.gd" id="13_2xkdn"]
 [ext_resource type="Script" path="res://maze_scripts/maze_end_handler.gd" id="14_3hk33"]
 [ext_resource type="Script" path="res://maze_scripts/maze_config.gd" id="15_b3ry7"]
-[ext_resource type="Script" path="res://right_hand_rule.gd" id="16_f52xm"]
+[ext_resource type="Script" path="res://solvers/hand_rule.gd" id="16_arset"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ammq3"]
 transparency = 1
@@ -89,9 +89,9 @@ tracked = NodePath("../../Player")
 maze_config = NodePath("../../../Maze config")
 
 [node name="Maze camera" type="Camera3D" parent="maze world/maze" node_paths=PackedStringArray("maze_config")]
-transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, 0.5, 0, -0.5, -2.18557e-08, 1.5, 2, 11)
+transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, 0.5, 0, -0.5, -2.18557e-08, 10, 2, 10)
 projection = 1
-size = 44.0
+size = 40.0
 script = ExtResource("8_btq55")
 maze_config = NodePath("../../../Maze config")
 
@@ -120,17 +120,22 @@ score_text = NodePath("../UI/VBoxContainer/RichTextLabel")
 maze_config = NodePath("../Maze config")
 walls = NodePath("../maze world/maze/Walls")
 player_tracker = NodePath("../maze world/maze/Player tracker")
-maze_solvers = [NodePath("../solvers/right hand rule")]
+maze_solvers = [NodePath("../solvers/right hand rule"), NodePath("../solvers/left hand rule")]
 
 [node name="Maze config" type="Node" parent="."]
 script = ExtResource("15_b3ry7")
-size = Vector2i(3, 22)
-exit = Vector2i(2, 21)
+size = Vector2i(20, 20)
+exit = Vector2i(19, 19)
 
 [node name="solvers" type="Node" parent="."]
+script = ExtResource("16_arset")
 
 [node name="right hand rule" type="Node" parent="solvers"]
-script = ExtResource("16_f52xm")
+script = ExtResource("16_arset")
+
+[node name="left hand rule" type="Node" parent="solvers"]
+script = ExtResource("16_arset")
+keep_right = false
 
 [connection signal="area_entered" from="maze world/maze/end marker/MeshInstance3D/Area3D" to="End game handler" method="_on_end_marker_entered" flags=18]
 [connection signal="body_entered" from="maze world/maze/end marker/MeshInstance3D/Area3D" to="End game handler" method="_on_end_marker_entered" flags=18]

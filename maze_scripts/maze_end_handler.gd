@@ -9,7 +9,9 @@ extends Node
 
 @export var player_tracker: PathHistory
 
-@export var maze_solvers: Array[RightHandRule]
+@export var maze_solvers: Array[Solver]
+
+@export var replay_total_time_seconds: float = 5
 
 func _on_end_marker_entered(area):
 	play_end_game()
@@ -21,10 +23,10 @@ func play_end_game():
 	is_end_game_running = true
 	
 	maze_cam.make_current()
-	await replay.begin_path_replay(player_tracker.path_history)
+	await replay.begin_path_replay(player_tracker.path_history, replay_total_time_seconds * 1000)
 	score_text.append_text("player: " + str(player_tracker.path_history.size()) + "\n")
 	
 	for solver in maze_solvers:
 		var solution := solver.solve_path(walls.reachable, maze_config.entry, 0, maze_config.exit)
-		await replay.begin_path_replay(solution)
+		await replay.begin_path_replay(solution, replay_total_time_seconds * 1000)
 		score_text.append_text(solver.name + ": " + str(solution.size()) + "\n")
