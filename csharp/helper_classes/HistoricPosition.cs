@@ -51,7 +51,7 @@ public readonly struct HistoricPosition
     }
     public int GetTime()
     {
-        var variant = obj.Get("time");
+        var variant = obj.Get("time_ms");
         if(variant.VariantType != Variant.Type.Int)
             throw new System.InvalidOperationException("Expected Int");
         return variant.AsInt32();

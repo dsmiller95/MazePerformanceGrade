@@ -7,9 +7,9 @@ public partial class FloorCreator : Node
 	// #WEIRD we still can't enforce the type of a packed scene reference in C#
 	[Export] private PackedScene floorPrefab;
 	[Export] private MazeConfig mazeConfig;
-	
-	private Node3D[] floors_indexed = Array.Empty<Node3D>();
-	
+
+	public Node3D[] floors_indexed { get; private set; } = Array.Empty<Node3D>();
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{

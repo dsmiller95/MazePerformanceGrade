@@ -6,7 +6,7 @@ using MazePerformanceGrade.csharp.helper_classes;
 public partial class MazeEndHandler : Node
 {
 	[Export] private Camera3D mazeCam;
-	[Export] private Node mazeReplay;
+	[Export] private MazeReplay mazeReplay;
 	[Export] private RichTextLabel scoreText;
 	
 	[Export] private MazeConfig mazeConfig;
@@ -46,22 +46,15 @@ public partial class MazeEndHandler : Node
 		
 		mazeCam.MakeCurrent();
 		var playerPathHistory = playerTracker.pathHistory;
-		await TryAwaitCall(
-			mazeReplay,
-			"begin_path_replay_adapter",
-			HistoricPosition.To(playerPathHistory), replayTotalTimeSeconds * 1000);
+		await mazeReplay.BeginPathReplay(playerPathHistory, replayTotalTimeSeconds * 1000);
 
 		scoreText.AppendText("player: " + playerPathHistory.Count + "\n");
 
 		foreach (var solver in mazeSolvers)
 		{
 			var solution = solver.SolveMaze(wallCreator.reachable, mazeConfig.entry, 0, mazeConfig.exit);
-			var solutionAsGodotObjs = HistoricPosition.To(solution);
 			
-			await TryAwaitCall(
-				mazeReplay,
-				"begin_path_replay_adapter",
-				solutionAsGodotObjs, replayTotalTimeSeconds * 1000);
+			await mazeReplay.BeginPathReplay(solution, replayTotalTimeSeconds * 1000);
 			
 			scoreText.AppendText(solver.Name + ": " + solution.Length + "\n");
 		}
