@@ -9,7 +9,7 @@ class_name MazeReplay
 
 var is_replaying_path := false
 
-#WEIRD we cannot marshal arrays with a collection type across the C#-gdscript boundary?
+#WEIRD we cannot marshal arrays with a collection type across the C#->gdscript boundary?
 func begin_path_replay_adapter(path: Array, replay_time_ms: int = 10000):
 	var path_typed: Array[HistoricPosition]
 	path_typed.assign(path)

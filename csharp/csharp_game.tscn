@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bq7aq8hpt7qpi"]
+[gd_scene load_steps=10 format=3 uid="uid://bq7aq8hpt7qpi"]
 
 [ext_resource type="PackedScene" uid="uid://dldfnuewkps0f" path="res://gdscript/gd_script_game.tscn" id="1_po80r"]
 [ext_resource type="Script" path="res://csharp/maze_scripts/MazeConfig.cs" id="2_r6byf"]
@@ -7,12 +7,15 @@
 [ext_resource type="Script" path="res://csharp/maze_scripts/FloorCreator.cs" id="5_tpsfe"]
 [ext_resource type="PackedScene" uid="uid://b3jqsbhg2qyu6" path="res://maze_components/maze_floor.tscn" id="6_w0rno"]
 [ext_resource type="Script" path="res://csharp/maze_scripts/MazeEndHandler.cs" id="7_fkdkd"]
+[ext_resource type="Script" path="res://csharp/maze_scripts/MazeFeatures.cs" id="7_xgv12"]
 [ext_resource type="Script" path="res://csharp/maze_scripts/solvers/HandRuleSolver.cs" id="8_3po2l"]
 
 [node name="Csharp game" instance=ExtResource("1_po80r")]
 
 [node name="Maze config" parent="." index="0"]
 script = ExtResource("2_r6byf")
+size = Vector2i(12, 10)
+exit = Vector2i(11, 9)
 
 [node name="Walls" parent="maze world/maze" index="0" node_paths=PackedStringArray("mazeConfig")]
 script = ExtResource("3_mtw2y")
@@ -23,6 +26,12 @@ mazeConfig = NodePath("../../../Maze config")
 script = ExtResource("5_tpsfe")
 floorPrefab = ExtResource("6_w0rno")
 mazeConfig = NodePath("../../../Maze config")
+
+[node name="Features" parent="maze world/maze" index="2" node_paths=PackedStringArray("mazeConfig", "exitFeature", "entryFeature")]
+script = ExtResource("7_xgv12")
+mazeConfig = NodePath("../../../Maze config")
+exitFeature = NodePath("../end marker")
+entryFeature = NodePath("../../Player")
 
 [node name="End game handler" parent="." index="3" node_paths=PackedStringArray("mazeCam", "mazeReplay", "scoreText", "mazeConfig", "wallCreator", "playerTracker", "mazeSolvers")]
 script = ExtResource("7_fkdkd")
