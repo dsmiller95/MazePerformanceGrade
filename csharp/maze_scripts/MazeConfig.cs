@@ -5,9 +5,9 @@ public partial class MazeConfig : Node
 	[Export]
 	public Vector2I size { get; private set; }
 	[Export]
-	private Vector2I entry;
+	public Vector2I entry { get; private set; }
 	[Export]
-	private Vector2I exit;
+	public Vector2I exit { get; private set; }
 
 	public static Vector3 to_3d_from_2d(Vector2I flat)
 	{

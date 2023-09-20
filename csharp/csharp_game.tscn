@@ -1,28 +1,48 @@
-[gd_scene load_steps=7 format=3 uid="uid://bq7aq8hpt7qpi"]
+[gd_scene load_steps=9 format=3 uid="uid://bq7aq8hpt7qpi"]
 
 [ext_resource type="PackedScene" uid="uid://dldfnuewkps0f" path="res://gdscript/gd_script_game.tscn" id="1_po80r"]
-[ext_resource type="Script" path="res://csharp/MazeConfig.cs" id="2_gid8l"]
-[ext_resource type="Script" path="res://csharp/WallCreator.cs" id="3_lb8hw"]
+[ext_resource type="Script" path="res://csharp/maze_scripts/MazeConfig.cs" id="2_r6byf"]
+[ext_resource type="Script" path="res://csharp/maze_scripts/WallCreator.cs" id="3_mtw2y"]
 [ext_resource type="PackedScene" uid="uid://cfoe6ek2guyew" path="res://maze_components/maze_wall.tscn" id="4_wma30"]
-[ext_resource type="Script" path="res://csharp/FloorCreator.cs" id="5_fd4yy"]
+[ext_resource type="Script" path="res://csharp/maze_scripts/FloorCreator.cs" id="5_tpsfe"]
 [ext_resource type="PackedScene" uid="uid://b3jqsbhg2qyu6" path="res://maze_components/maze_floor.tscn" id="6_w0rno"]
+[ext_resource type="Script" path="res://csharp/maze_scripts/MazeEndHandler.cs" id="7_fkdkd"]
+[ext_resource type="Script" path="res://csharp/maze_scripts/solvers/HandRuleSolver.cs" id="8_3po2l"]
 
 [node name="Csharp game" instance=ExtResource("1_po80r")]
 
 [node name="Maze config" parent="." index="0"]
-script = ExtResource("2_gid8l")
+script = ExtResource("2_r6byf")
 
 [node name="Walls" parent="maze world/maze" index="0" node_paths=PackedStringArray("mazeConfig")]
-script = ExtResource("3_lb8hw")
+script = ExtResource("3_mtw2y")
 wallPrefab = ExtResource("4_wma30")
 mazeConfig = NodePath("../../../Maze config")
 
 [node name="Floors" parent="maze world/maze" index="1" node_paths=PackedStringArray("mazeConfig")]
-script = ExtResource("5_fd4yy")
+script = ExtResource("5_tpsfe")
 floorPrefab = ExtResource("6_w0rno")
 mazeConfig = NodePath("../../../Maze config")
 
+[node name="End game handler" parent="." index="3" node_paths=PackedStringArray("mazeCam", "mazeReplay", "scoreText", "mazeConfig", "wallCreator", "playerTracker", "mazeSolvers")]
+script = ExtResource("7_fkdkd")
+mazeCam = NodePath("../maze world/maze/Maze camera")
+mazeReplay = NodePath("../maze world/Maze replay")
+scoreText = NodePath("../UI/VBoxContainer/RichTextLabel")
+mazeConfig = NodePath("../Maze config")
+wallCreator = NodePath("../maze world/maze/Walls")
+playerTracker = NodePath("../maze world/maze/Player tracker")
+mazeSolvers = [NodePath("../solvers/right hand rule"), NodePath("../solvers/left hand rule")]
+replayTotalTimeSeconds = 5.0
+
 [node name="right hand rule" parent="solvers" index="0"]
-keep_right = null
+script = ExtResource("8_3po2l")
+keepRight = true
+
+[node name="left hand rule" parent="solvers" index="1"]
+script = ExtResource("8_3po2l")
+keepRight = false
+
+[connection signal="body_entered" from="maze world/maze/end marker/MeshInstance3D/Area3D" to="End game handler" method="OnBodyEnteredEndMarker"]
 
 [editable path="UI"]

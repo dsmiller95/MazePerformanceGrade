@@ -8,7 +8,7 @@ public partial class WallCreator : Node
 	[Export] private MazeConfig mazeConfig;
 	
 	private TileEdge[] walls = Array.Empty<TileEdge>();
-	private Reachability reachable = null!;
+	public Reachability reachable { get; private set; } = null!;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()

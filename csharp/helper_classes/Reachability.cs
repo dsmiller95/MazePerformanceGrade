@@ -49,6 +49,11 @@ public partial class Reachability : GodotObject
         return reachable[nextSearch.X, nextSearch.Y];
     }
 
+    public bool Traversable(TileEdge edge)
+    {
+        return navigableEdges.Contains(edge);
+    }
+
     public void ReachBetween(Vector2I alreadyReached, Vector2I newlyReached)
     {
         if (!Reachable(alreadyReached))
