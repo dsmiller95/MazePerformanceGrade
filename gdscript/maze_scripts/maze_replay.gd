@@ -9,6 +9,12 @@ class_name MazeReplay
 
 var is_replaying_path := false
 
+#WEIRD we cannot marshal arrays with a collection type across the C#-gdscript boundary?
+func begin_path_replay_adapter(path: Array, replay_time_ms: int = 10000):
+	var path_typed: Array[HistoricPosition]
+	path_typed.assign(path)
+	await begin_path_replay(path_typed, replay_time_ms)
+
 func begin_path_replay(path: Array[HistoricPosition], replay_time_ms: int = 10000):
 	print("trying to play path")
 	if(is_replaying_path):
@@ -32,26 +38,6 @@ func begin_path_replay(path: Array[HistoricPosition], replay_time_ms: int = 1000
 		last_path = location
 		
 	is_replaying_path = false
-
-func typed_parameter_historic_position(data: Array[HistoricPosition]):
-	print("got typed data:")
-	print(data)
-	return data
-	
-func typed_parameter_ints(data: Array[int]):
-	print("got typed data:")
-	print(data)
-	return data
-	
-func typed_parameter_strings(data: Array[String]):
-	print("got typed data:")
-	print(data)
-	return data
-
-func generic_parameter(data):
-	print("got generic data:")
-	print(data)
-	return data
 
 func highlight_tile(tile: Vector2i, mat: Material):
 	print("replaying over tile " + str(tile))
