@@ -14,7 +14,7 @@ public static class Utils
         var newNode = scene.Instantiate();
         if (newNode is not T castedNode)
         {
-            throw new ArgumentException("floorPrefab must be a Node3D", paramName);
+            throw new ArgumentException("floorPrefab must be a " + typeof(T).Name, paramName);
         }
         return castedNode;
     }

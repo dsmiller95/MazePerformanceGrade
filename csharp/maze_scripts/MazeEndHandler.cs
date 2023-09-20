@@ -6,6 +6,7 @@ using MazePerformanceGrade.csharp.helper_classes;
 public partial class MazeEndHandler : Node
 {
 	[Export] private Camera3D mazeCam;
+	// #WEIRD selecting a reference to a custom C# class in the godot editor does not filter for implementations of that type. it does for gdscript classes. why not C# too? 
 	[Export] private MazeReplay mazeReplay;
 	[Export] private RichTextLabel scoreText;
 	

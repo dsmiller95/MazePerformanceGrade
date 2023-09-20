@@ -2,6 +2,7 @@ using Godot;
 
 namespace MazePerformanceGrade.csharp.helper_classes;
 
+// #WEIRD: C# allows us to implement custom equality, via things like record. godot has no equivalent.
 public readonly record struct TileEdge
 {
     public Vector2I A { get; }
