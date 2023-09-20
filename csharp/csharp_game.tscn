@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bq7aq8hpt7qpi"]
+[gd_scene load_steps=11 format=3 uid="uid://bq7aq8hpt7qpi"]
 
 [ext_resource type="PackedScene" uid="uid://dldfnuewkps0f" path="res://gdscript/gd_script_game.tscn" id="1_po80r"]
 [ext_resource type="Script" path="res://csharp/maze_scripts/MazeConfig.cs" id="2_r6byf"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://csharp/maze_scripts/MazeEndHandler.cs" id="7_fkdkd"]
 [ext_resource type="Script" path="res://csharp/maze_scripts/MazeFeatures.cs" id="7_xgv12"]
 [ext_resource type="Script" path="res://csharp/maze_scripts/solvers/HandRuleSolver.cs" id="8_3po2l"]
+[ext_resource type="Script" path="res://csharp/maze_scripts/PathHistory.cs" id="8_11grc"]
 
 [node name="Csharp game" instance=ExtResource("1_po80r")]
 
@@ -32,6 +33,10 @@ script = ExtResource("7_xgv12")
 mazeConfig = NodePath("../../../Maze config")
 exitFeature = NodePath("../end marker")
 entryFeature = NodePath("../../Player")
+
+[node name="Player tracker" parent="maze world/maze" index="4" node_paths=PackedStringArray("mazeConfig")]
+script = ExtResource("8_11grc")
+mazeConfig = NodePath("../../../Maze config")
 
 [node name="End game handler" parent="." index="3" node_paths=PackedStringArray("mazeCam", "mazeReplay", "scoreText", "mazeConfig", "wallCreator", "playerTracker", "mazeSolvers")]
 script = ExtResource("7_fkdkd")

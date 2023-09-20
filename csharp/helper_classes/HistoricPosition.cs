@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 
 namespace MazePerformanceGrade.csharp.helper_classes;
@@ -10,6 +11,11 @@ public readonly struct HistoricPosition
     {
         var script = GD.Load<GDScript>("res://gdscript/maze_scripts/helper_classes/historic_position.gd");
         obj = (GodotObject)script.New(tile, time);
+    }
+    public HistoricPosition(Vector2I tile)
+    {
+        var script = GD.Load<GDScript>("res://gdscript/maze_scripts/helper_classes/historic_position.gd");
+        obj = (GodotObject)script.New(tile);
     }
     
     public HistoricPosition(GodotObject godotObject)
@@ -26,14 +32,14 @@ public readonly struct HistoricPosition
         return result;
     }
 
-    public static GodotObject[] To(HistoricPosition[] positions)
+    public static Godot.Collections.Array To(IList<HistoricPosition> positions)
     {
-        var result = new GodotObject[positions.Length];
-        for (int i = 0; i < positions.Length; i++)
+        var result = new Variant[positions.Count];
+        for (int i = 0; i < positions.Count; i++)
         {
             result[i] = positions[i].obj;
         }
-        return result;
+        return new Godot.Collections.Array(result);
     }
 
     public Vector2I GetTile()
