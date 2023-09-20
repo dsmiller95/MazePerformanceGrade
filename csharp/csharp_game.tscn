@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://bq7aq8hpt7qpi"]
+[gd_scene load_steps=15 format=3 uid="uid://bq7aq8hpt7qpi"]
 
 [ext_resource type="PackedScene" uid="uid://dldfnuewkps0f" path="res://gdscript/gd_script_game.tscn" id="1_po80r"]
 [ext_resource type="Script" path="res://csharp/maze_scripts/MazeConfig.cs" id="2_r6byf"]
+[ext_resource type="Script" path="res://csharp/Level.cs" id="3_1mhv2"]
 [ext_resource type="Script" path="res://csharp/maze_scripts/WallCreator.cs" id="3_mtw2y"]
 [ext_resource type="PackedScene" uid="uid://cfoe6ek2guyew" path="res://maze_components/maze_wall.tscn" id="4_wma30"]
 [ext_resource type="Script" path="res://csharp/maze_scripts/FloorCreator.cs" id="5_tpsfe"]
@@ -20,6 +21,10 @@
 script = ExtResource("2_r6byf")
 size = Vector2i(12, 10)
 exit = Vector2i(11, 9)
+
+[node name="maze world" parent="." index="2"]
+script = ExtResource("3_1mhv2")
+fastClose = true
 
 [node name="Walls" parent="maze world/maze" index="0" node_paths=PackedStringArray("mazeConfig")]
 script = ExtResource("3_mtw2y")
