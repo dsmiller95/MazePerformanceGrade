@@ -20,7 +20,7 @@ public partial class PathHistory : Node3D
 			return;
 		}
 
-		var lastTile = pathHistory.Last().GetTile();
+		var lastTile = pathHistory.Last().Tile;
 		if (lastTile == current)
 		{
 			return;

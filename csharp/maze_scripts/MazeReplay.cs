@@ -25,22 +25,22 @@ public partial class MazeReplay : Node
 
 		isReplayingPath = true;
 
-		var totalTime = path.Last().GetTime() - path.First().GetTime();
+		var totalTime = path.Last().TimeMs - path.First().TimeMs;
 		var adjustment = replayTimeMs / (float)totalTime;
 
 		var sceneTree = GetTree();
 		
 		var lastPath = path[0];
-		HighlightTile(lastPath.GetTile(), highlightMaterial);
+		HighlightTile(lastPath.Tile, highlightMaterial);
 		
 		
 		foreach (var location in path)
 		{
-			var adjustedMs = (location.GetTime() - lastPath.GetTime()) * adjustment;
+			var adjustedMs = (location.TimeMs - lastPath.TimeMs) * adjustment;
 			var timer = sceneTree.CreateTimer(adjustedMs / 1000);
 			await ToSignal(timer, "timeout");
-			HighlightTile(lastPath.GetTile(), traveledMaterial);
-			HighlightTile(location.GetTile(), highlightMaterial);
+			HighlightTile(lastPath.Tile, traveledMaterial);
+			HighlightTile(location.Tile, highlightMaterial);
 			lastPath = location;
 		}
 

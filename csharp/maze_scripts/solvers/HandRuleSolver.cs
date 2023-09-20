@@ -11,10 +11,9 @@ public partial class HandRuleSolver : Solver
     public override HistoricPosition[] SolveMaze(Reachability maze, Vector2I position, int direction, Vector2I target)
     {
         var path = new List<HistoricPosition>();
-        var delayMs = 500;
-        var currentStep = 0;
+        uint delayMs = 500;
+        uint currentStep = 0;
         var maxSteps = Mathf.Pow(maze.size.X * maze.size.Y, 2) ;
-        
         
         var checkDir = keepRight ? 1 : 3;
         var searchDir = keepRight ? 3 : 1;
