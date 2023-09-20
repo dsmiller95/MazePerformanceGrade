@@ -32,6 +32,27 @@ public partial class MazeEndHandler : Node
 		this.TryMarshalls();
 	}
 
+	private void TryMarshalls()
+	{
+		Variant ints = new int[] { 1, 3, 20 };
+		var resultA = mazeReplay.Call("typed_parameter_ints", ints);
+		var resultB = mazeReplay.Call("generic_parameter", ints);
+		
+		Variant strings = new string[] {"hello", "world"};
+		resultA = mazeReplay.Call("typed_parameter_strings", strings);
+		resultB = mazeReplay.Call("generic_parameter", strings);
+
+		var script = GD.Load<GDScript>("res://gdscript/maze_scripts/helper_classes/historic_position.gd");
+		Variant historicPositions = new Godot.Collections.Array()
+		{
+			script.New(Vector2I.Down, 10),
+			script.New(Vector2I.Right, 100)
+		};
+		resultA = mazeReplay.Call("typed_parameter_historic_position", historicPositions);
+		resultB = mazeReplay.Call("generic_parameter", historicPositions);
+		return;
+	}
+
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
@@ -72,27 +93,6 @@ public partial class MazeEndHandler : Node
 			
 			scoreText.AppendText(solver.Name + ": " + solution.Length + "\n");
 		}
-	}
-
-	private void TryMarshalls()
-	{
-		Variant ints = new int[] { 1, 3, 20 };
-		var resultA = mazeReplay.Call("typed_parameter_ints", ints);
-		var resultB = mazeReplay.Call("generic_parameter", ints);
-		
-		Variant strings = new string[] {"hello", "world"};
-		resultA = mazeReplay.Call("typed_parameter_strings", strings);
-		resultB = mazeReplay.Call("generic_parameter", strings);
-
-		var script = GD.Load<GDScript>("res://gdscript/maze_scripts/helper_classes/historic_position.gd");
-		Variant historicPositions = new Godot.Collections.Array()
-		{
-			script.New(Vector2I.Down, 10),
-			script.New(Vector2I.Right, 100)
-		};
-		resultA = mazeReplay.Call("typed_parameter_historic_position", historicPositions);
-		resultB = mazeReplay.Call("generic_parameter", historicPositions);
-		return;
 	}
 	
 	static StringName completed = new("completed");
