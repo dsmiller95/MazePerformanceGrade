@@ -1,9 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://bgtl847m14k26"]
+[gd_scene load_steps=3 format=3 uid="uid://bgtl847m14k26"]
 
 [ext_resource type="Texture2D" uid="uid://ct7lv3eifcyj4" path="res://icon.svg" id="1_2rimw"]
+[ext_resource type="Script" path="res://rust/speed_increaser.gd" id="2_fhpdf"]
 
 [node name="rust_test" type="Node2D"]
 
 [node name="RustPlayer" type="RustPlayer" parent="."]
 position = Vector2(388, 299)
 texture = ExtResource("1_2rimw")
+
+[node name="speed_increaser" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("2_fhpdf")
+player = NodePath("../RustPlayer")

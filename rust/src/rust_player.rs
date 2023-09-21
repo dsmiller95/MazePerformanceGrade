@@ -33,3 +33,15 @@ impl Sprite2DVirtual for RustPlayer {
         self.base.translate(velocity * delta as f32);
     }
 }
+
+#[godot_api]
+impl RustPlayer {
+    #[func]
+    fn increase_speed(&mut self, amount: f64) {
+        self.speed += amount;
+        self.base.emit_signal("speed_increased".into(), &[]);
+    }
+
+    #[signal]
+    fn speed_increased();
+}
