@@ -1,0 +1,12 @@
+[package]
+name = "maze_rust"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+godot = { git = "https://github.com/godot-rust/gdext", branch = "master" }
+
+#WERID: cannot build rust project while godot is open, presumably due to godot locking the dll file?

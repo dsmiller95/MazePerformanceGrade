@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgtl847m14k26"]
+
+[ext_resource type="Texture2D" uid="uid://ct7lv3eifcyj4" path="res://icon.svg" id="1_2rimw"]
+
+[node name="rust_test" type="Node2D"]
+
+[node name="RustPlayer" type="RustPlayer" parent="."]
+position = Vector2(388, 299)
+texture = ExtResource("1_2rimw")
