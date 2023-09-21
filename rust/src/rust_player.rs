@@ -27,5 +27,9 @@ impl Sprite2DVirtual for RustPlayer {
 
     fn physics_process(&mut self, delta: f64) {
         self.base.rotate((self.angular_speed * delta) as f32);
+
+        let rotation = self.base.get_rotation();
+        let velocity = Vector2::UP.rotated(rotation) * self.speed as f32;
+        self.base.translate(velocity * delta as f32);
     }
 }
