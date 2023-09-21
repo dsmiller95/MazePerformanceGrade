@@ -20,8 +20,6 @@
 
 [node name="Maze config" parent="." index="0"]
 script = ExtResource("2_r6byf")
-size = Vector2i(12, 10)
-exit = Vector2i(11, 9)
 
 [node name="maze world" parent="." index="2"]
 script = ExtResource("3_1mhv2")

@@ -1,0 +1,13 @@
+[configuration]
+entry_symbol = "gdext_rust_init"
+compatibility_minimum = 4.1
+
+[libraries]
+linux.debug.x86_64 = "res://../rust/target/debug/libMazeRust.so"
+linux.release.x86_64 = "res://../rust/target/release/libMazeRust.so"
+windows.debug.x86_64 = "res://../rust/target/debug/MazeRust.dll"
+windows.release.x86_64 = "res://../rust/target/release/MazeRust.dll"
+macos.debug = "res://../rust/target/debug/libMazeRust.dylib"
+macos.release = "res://../rust/target/release/libMazeRust.dylib"
+macos.debug.arm64 = "res://../rust/target/debug/libMazeRust.dylib"
+macos.release.arm64 = "res://../rust/target/release/libMazeRust.dylib"
