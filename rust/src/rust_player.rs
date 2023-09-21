@@ -4,7 +4,9 @@ use godot::engine::Sprite2D;
 #[derive(GodotClass)]
 #[class(base=Sprite2D)]
 struct RustPlayer {
+    #[export]
     speed: f64,
+    #[export]
     angular_speed: f64,
 
     #[base]
