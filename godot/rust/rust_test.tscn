@@ -5,9 +5,18 @@
 
 [node name="rust_test" type="Node2D"]
 
-[node name="RustPlayer" type="RustPlayer" parent="."]
+[node name="RustPlayer" type="RustPlayer" parent="." node_paths=PackedStringArray("attractor")]
 speed = 4.0
+attractor = NodePath("../RustPlayer2")
+attraction_force = 0.1
 position = Vector2(388, 299)
+texture = ExtResource("1_2rimw")
+
+[node name="RustPlayer2" type="RustPlayer" parent="." node_paths=PackedStringArray("attractor")]
+speed = 4.0
+attractor = NodePath("../RustPlayer")
+attraction_force = 0.1
+position = Vector2(815, 293)
 texture = ExtResource("1_2rimw")
 
 [node name="speed_increaser" type="Node" parent="." node_paths=PackedStringArray("player")]
