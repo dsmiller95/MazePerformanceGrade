@@ -81,10 +81,6 @@ size = 20.0
 script = ExtResource("9_eli3d")
 maze_config = NodePath("../../../Maze config")
 
-[node name="FloorCreatorRs2" type="FloorCreatorRs" parent="maze world/maze" node_paths=PackedStringArray("maze_config")]
-floor_prefab = ExtResource("2_m8u8c")
-maze_config = NodePath("../../../MazeConfigRs")
-
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="maze world"]
 transform = Transform3D(0.729792, -0.526685, 0.435897, 0, 0.637585, 0.77038, -0.683669, -0.562217, 0.465305, 0, 0, 0)
 
@@ -92,8 +88,9 @@ transform = Transform3D(0.729792, -0.526685, 0.435897, 0, 0.637585, 0.77038, -0.
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 5, 0.5)
 rotation_to_move = false
 
-[node name="Maze replay" type="Node3D" parent="maze world" node_paths=PackedStringArray("maze_data")]
+[node name="Maze replay" type="Node3D" parent="maze world" node_paths=PackedStringArray("floors_alt", "maze_data")]
 script = ExtResource("11_qfec3")
+floors_alt = NodePath("../maze/FloorCreatorRs")
 maze_data = NodePath("../../Maze config")
 highlight_material = ExtResource("12_o7o7g")
 traveled_material = ExtResource("13_axuaa")

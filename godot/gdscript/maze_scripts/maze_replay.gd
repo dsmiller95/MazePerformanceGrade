@@ -2,6 +2,7 @@ extends Node3D
 class_name MazeReplay
 
 @export var floors: FloorGenerator
+@export var floors_alt: FloorCreatorRs
 @export var maze_data: MazeConfig
 
 @export var highlight_material: Material
@@ -41,6 +42,7 @@ func begin_path_replay(path: Array[HistoricPosition], replay_time_ms: int = 1000
 
 func highlight_tile(tile: Vector2i, mat: Material):
 	print("replaying over tile " + str(tile))
-	var floor_tile = floors.floors_indexed[tile.x + tile.y * maze_data.size.x]
+	var floor_choice = floors if floors != null else floors_alt;
+	var floor_tile: Node3D = floor_choice.floors_indexed[tile.x + tile.y * maze_data.size.x]
 	var mesh: MeshInstance3D = floor_tile.find_child("MeshInstance3D")
 	mesh.material_overlay = mat
