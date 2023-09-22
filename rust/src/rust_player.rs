@@ -3,7 +3,7 @@ use godot::engine::Sprite2D;
 
 #[derive(GodotClass)]
 #[class(base=Sprite2D)]
-struct RustPlayer {
+struct RustPlayerrrr {
     #[export]
     speed: f64,
     #[export]
@@ -21,7 +21,7 @@ struct RustPlayer {
 use godot::engine::Sprite2DVirtual;
 
 #[godot_api]
-impl Sprite2DVirtual for RustPlayer {
+impl Sprite2DVirtual for RustPlayerrrr {
     fn init(base: Base<Self::Base>) -> Self {
         godot_print!("hello, player!");
 
@@ -53,7 +53,7 @@ impl Sprite2DVirtual for RustPlayer {
 }
 
 #[godot_api]
-impl RustPlayer {
+impl RustPlayerrrr {
     #[func]
     fn increase_speed(&mut self, amount: f64) {
         self.speed += amount;

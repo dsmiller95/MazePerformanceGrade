@@ -1,11 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://bt4kakglvhfid"]
 
 [ext_resource type="Script" path="res://gdscript/typing_weird.gd" id="1_ru3wq"]
-[ext_resource type="PackedScene" uid="uid://bq7aq8hpt7qpi" path="res://csharp/csharp_game.tscn" id="2_bri4f"]
+[ext_resource type="PackedScene" uid="uid://cp3vo6uyxc2xw" path="res://rust/rust_game.tscn" id="2_1yl24"]
 
 [node name="game_scene" type="Node"]
 
 [node name="weird typing" type="Node" parent="."]
 script = ExtResource("1_ru3wq")
 
-[node name="Csharp game" parent="." instance=ExtResource("2_bri4f")]
+[node name="rust game" parent="." instance=ExtResource("2_1yl24")]

@@ -1,0 +1,62 @@
+{
+    "configurations": [
+        {
+            "name": "Debug Project Editor (Godot 4)",
+            "type": "lldb", // type provided by CodeLLDB extension
+            "request": "launch",
+            "preLaunchTask": "rust: cargo build",
+            "cwd": "${workspaceFolder}/../godot",
+            "args": [
+                "-e", // run editor (remove this to launch the scene directly)
+                "-w", // windowed mode
+            ],
+            "linux": {
+                "program": "/usr/local/bin/godot4",
+            },
+            "windows": {
+                "program": "F:\\PortablePrograms\\Godot\\godot4.exe",
+            },
+            "osx": {
+                // NOTE: on macOS the Godot.app needs to be manually re-signed 
+                // to enable debugging (see below)
+                "program": "/Applications/Godot.app/Contents/MacOS/Godot",
+            }
+        },
+        {
+            "name": "Debug Project (Godot 4)",
+            "type": "lldb", // type provided by CodeLLDB extension
+            "request": "launch",
+            "preLaunchTask": "rust: cargo build",
+            "cwd": "${workspaceFolder}/../godot",
+            "args": [
+                //"-e", // run editor (remove this to launch the scene directly)
+                //"-w", // windowed mode
+                "res://game_scene.tscn",
+            ],
+            "linux": {
+                "program": "/usr/local/bin/godot4",
+            },
+            "windows": {
+                "program": "F:\\PortablePrograms\\Godot\\godot4.exe",
+            },
+            "osx": {
+                // NOTE: on macOS the Godot.app needs to be manually re-signed 
+                // to enable debugging (see below)
+                "program": "/Applications/Godot.app/Contents/MacOS/Godot",
+            }
+        },
+        {
+            "name": "Debug rust scene (Godot 4)",
+            "type": "lldb", // type provided by CodeLLDB extension
+            "request": "launch",
+            "preLaunchTask": "rust: cargo build",
+            "cwd": "${workspaceFolder}/../godot",
+            "args": [
+                //"-e", // run editor (remove this to launch the scene directly)
+                //"-w", // windowed mode
+                "res://rust/rust_game.tscn",
+            ],
+            "program": "F:\\PortablePrograms\\Godot\\godot4.exe",
+        }
+    ]
+}
