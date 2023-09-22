@@ -45,4 +45,4 @@ func highlight_tile(tile: Vector2i, mat: Material):
 	var floor_choice = floors if floors != null else floors_alt;
 	var floor_tile: Node3D = floor_choice.floors_indexed[tile.x + tile.y * maze_data.size.x]
 	var mesh: MeshInstance3D = floor_tile.find_child("MeshInstance3D")
-	mesh.material_overlay = mat
+	mesh.material_override = mat

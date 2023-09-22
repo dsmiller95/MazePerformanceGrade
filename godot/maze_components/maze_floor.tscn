@@ -11,8 +11,8 @@
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.99, 0, 0, 0, 0.1, 0, 0, 0, 0.99, 0, 0, 0)
-material_overlay = ExtResource("1_ao5fi")
 mesh = SubResource("BoxMesh_beao1")
+surface_material_override/0 = ExtResource("1_ao5fi")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
 physics_material_override = ExtResource("2_2ghot")
