@@ -1,5 +1,6 @@
 use godot::prelude::*;
 use crate::maze_scripts::helper_classes::array2d::Array2D;
+use crate::maze_scripts::helper_classes::box_iterator::BoxIterator;
 use crate::maze_scripts::helper_classes::tile_edge::TileEdge;
 
 pub const NEIGHBORS: [Vector2i; 4] = [Vector2i::UP, Vector2i::RIGHT, Vector2i::DOWN, Vector2i::LEFT];
@@ -46,12 +47,9 @@ impl Reachability{
     }
 
     pub fn assert_fully_reachable(&self){
-        for x in 0..self.reachable.size.x {
-            for y in 0..self.reachable.size.y {
-                let pos = Vector2i{x, y};
-                if !self.reachable[pos] {
-                    godot_error!("Cell {} not reachable when assumed reachable!", pos)
-                }
+        for pos in BoxIterator::from(self.reachable.size){
+            if !self.reachable[pos] {
+                godot_error!("Cell {} not reachable when assumed reachable!", pos)
             }
         }
     }
@@ -67,22 +65,18 @@ impl Reachability{
 
 pub fn all_edges(size: Vector2i) -> impl Iterator<Item = TileEdge> {
     let mut edges = vec![];
-    for x in 0..size.x - 1 {
-        for y in 0..size.y {
-            edges.push(TileEdge::new(
-                Vector2i::new(x, y),
-                Vector2i::new(x + 1, y)
-            ))
-        }
+    for tile in BoxIterator::from(size + Vector2i::new(-1, 0)){
+        edges.push(TileEdge::new(
+            tile,
+            tile + Vector2i::new(1, 0)
+        ))
     }
 
-    for x in 0..size.x {
-        for y in 0..size.y - 1 {
-            edges.push(TileEdge::new(
-                Vector2i::new(x, y),
-                Vector2i::new(x, y + 1)
-            ))
-        }
+    for tile in BoxIterator::from(size + Vector2i::new(0, -1)){
+        edges.push(TileEdge::new(
+            tile,
+            tile + Vector2i::new(0, 1)
+        ))
     }
     edges.into_iter()
 }

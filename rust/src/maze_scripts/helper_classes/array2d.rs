@@ -52,29 +52,3 @@ impl<T> IndexMut<Vector2i> for Array2D<T>{
         &mut self.data[index as usize]
     }
 }
-
-
-
-#[cfg(test)]
-mod tests {
-    // Note this useful idiom: importing names from outer (for mod tests) scope.
-    use super::*;
-
-    #[test]
-    fn test_iterate_size() {
-        let iterated_size: Vec<Vector2i> = (Vector2i::new(0, 0)..Vector2i::new(3, 3)).collect();
-        let expected_sequence = [
-            Vector2i::new(0, 0),
-            Vector2i::new(1, 0),
-            Vector2i::new(2, 0),
-            Vector2i::new(0, 1),
-            Vector2i::new(1, 1),
-            Vector2i::new(2, 1),
-            Vector2i::new(0, 2),
-            Vector2i::new(1, 2),
-            Vector2i::new(2, 2),
-        ];
-
-        assert!(itertools::equal(expected_sequence, iterated_size));
-    }
-}
