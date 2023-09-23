@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cp3vo6uyxc2xw"]
+[gd_scene load_steps=17 format=3 uid="uid://cp3vo6uyxc2xw"]
 
 [ext_resource type="Script" path="res://gdscript/maze_scripts/maze_config.gd" id="1_7bph4"]
 [ext_resource type="PackedScene" uid="uid://b3jqsbhg2qyu6" path="res://maze_components/maze_floor.tscn" id="2_m8u8c"]
@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://cfoe6ek2guyew" path="res://maze_components/maze_wall.tscn" id="5_gfqbq"]
 [ext_resource type="Script" path="res://gdscript/maze_scripts/maze_features.gd" id="7_mf153"]
 [ext_resource type="Script" path="res://gdscript/maze_scripts/path_history.gd" id="8_614wa"]
-[ext_resource type="Script" path="res://gdscript/maze_scripts/maze_camera.gd" id="9_eli3d"]
 [ext_resource type="PackedScene" uid="uid://2oxdgu03lnbk" path="res://addons/character-controller/example/main/player.tscn" id="10_5tc6k"]
 [ext_resource type="Script" path="res://gdscript/maze_scripts/maze_replay.gd" id="11_qfec3"]
 [ext_resource type="Material" uid="uid://ckvcdcn2iue87" path="res://addons/character-controller/example/main/materials/wood.tres" id="12_o7o7g"]
@@ -72,12 +71,11 @@ script = ExtResource("8_614wa")
 tracked = NodePath("../../Player")
 maze_config = NodePath("../../../Maze config")
 
-[node name="Maze camera" type="Camera3D" parent="maze world/maze" node_paths=PackedStringArray("maze_config")]
-transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, 0.5, 0, -0.5, -2.18557e-08, 5, 2, 5)
+[node name="MazeCameraRs" type="MazeCameraRs" parent="maze world/maze" node_paths=PackedStringArray("maze_config")]
+maze_config = NodePath("../../../MazeConfigRs")
+transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, 0.5, 0, -0.5, -2.18557e-08, -6.38, 2, 5)
 projection = 1
 size = 20.0
-script = ExtResource("9_eli3d")
-maze_config = NodePath("../../../Maze config")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="maze world"]
 transform = Transform3D(0.729792, -0.526685, 0.435897, 0, 0.637585, 0.77038, -0.683669, -0.562217, 0.465305, 0, 0, 0)
@@ -93,13 +91,12 @@ maze_data = NodePath("../../Maze config")
 highlight_material = ExtResource("12_o7o7g")
 traveled_material = ExtResource("13_axuaa")
 
-[node name="End game handler" type="Node" parent="." node_paths=PackedStringArray("maze_cam", "replay", "score_text", "maze_config", "walls", "player_tracker", "maze_solvers")]
+[node name="End game handler" type="Node" parent="." node_paths=PackedStringArray("maze_cam", "replay", "score_text", "maze_config", "player_tracker", "maze_solvers")]
 script = ExtResource("14_2fvbv")
-maze_cam = NodePath("../maze world/maze/Maze camera")
+maze_cam = NodePath("../maze world/maze/MazeCameraRs")
 replay = NodePath("../maze world/Maze replay")
 score_text = NodePath("../UI/VBoxContainer/RichTextLabel")
 maze_config = NodePath("../Maze config")
-walls = NodePath("")
 player_tracker = NodePath("../maze world/maze/Player tracker")
 maze_solvers = [NodePath("../solvers/right hand rule"), NodePath("../solvers/left hand rule")]
 
