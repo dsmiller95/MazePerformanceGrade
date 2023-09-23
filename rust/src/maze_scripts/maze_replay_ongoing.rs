@@ -9,6 +9,7 @@ pub(crate) struct MazeReplayOngoing {
     last_position: Option<HistoricPosition>,
     remaining_positions: VecDeque<HistoricPosition>,
     next_action_ms: u64,
+    time_scale: f64,
 }
 
 enum Wait {
@@ -17,11 +18,12 @@ enum Wait {
 }
 
 impl MazeReplayOngoing {
-    pub fn new(path: VecDeque<HistoricPosition>, current_time: u64) -> Self {
+    pub fn new(path: VecDeque<HistoricPosition>, current_time: u64, time_scale: f64) -> Self {
         Self {
             last_position: None,
             remaining_positions: path,
             next_action_ms: current_time,
+            time_scale,
         }
     }
 
@@ -50,19 +52,22 @@ impl MazeReplayOngoing {
             return Wait::Done;
         };
 
-        let Some(next_pos) = self.remaining_positions.pop_front() else {
+        let Some(current_pos) = self.remaining_positions.pop_front() else {
             return Wait::Done;
         };
 
-        context.highlight_tile(next_pos.tile, highlight_material);
+        context.highlight_tile(current_pos.tile, highlight_material);
 
         let mut delay = 0;
-        if let Some(last_pos) = &self.last_position {
-            context.highlight_tile(last_pos.tile, traveled_material);
-            delay = next_pos.time_ms - last_pos.time_ms;
+        if let Some(next_pos) = self.remaining_positions.front() {
+            delay = next_pos.time_ms - current_pos.time_ms;
         }
 
-        self.last_position = Some(next_pos);
-        Wait::DelayMs(delay)
+        if let Some(last_pos) = &self.last_position {
+            context.highlight_tile(last_pos.tile, traveled_material);
+        }
+
+        self.last_position = Some(current_pos);
+        Wait::DelayMs((delay as f64 * self.time_scale) as u64)
     }
 }

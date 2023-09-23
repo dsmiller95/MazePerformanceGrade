@@ -66,7 +66,7 @@ impl MazeReplayRs {
     pub fn begin_path_replay(
         &mut self,
         path: Vec<HistoricPosition>,
-        _replay_time_ms: f64,
+        replay_time_ms: f64,
     ) -> Option<()> {
         godot_print!("trying to play path");
         if let Some(_) = self.replay_pending {
@@ -74,8 +74,16 @@ impl MazeReplayRs {
             return None;
         }
 
+        if path.is_empty() {
+            godot_error!("cannot replay an empty path");
+            return None;
+        }
+
+        let total_time_ms = path.last()?.time_ms - path.first()?.time_ms;
+        let scale = replay_time_ms / total_time_ms as f64;
+
         let time_ms = Time::singleton().get_ticks_msec();
-        let mut replaying = MazeReplayOngoing::new(path.into(), time_ms);
+        let mut replaying = MazeReplayOngoing::new(path.into(), time_ms, scale);
 
         let moved = replaying.try_move(time_ms, self);
 
