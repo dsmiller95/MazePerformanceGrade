@@ -1,4 +1,5 @@
 use godot::prelude::*;
+use crate::assert_some::assert_some_or_log_err;
 use crate::maze_scripts::maze_config::MazeConfigRs;
 use crate::maze_scripts::helper_classes::box_iterator::BoxIterator;
 
@@ -34,15 +35,8 @@ impl Node3DVirtual for FloorCreatorRs {
     }
 
     fn ready(&mut self) {
-
-        let Some(floor_prefab) = &self.floor_prefab else {
-            godot_error!("Floor_prefab is required!");
-            return;
-        };
-        let Some(maze_config) = &self.maze_config else {
-            godot_error!("maze_config is required!");
-            return;
-        };
+        assert_some_or_log_err!(floor_prefab, self);
+        assert_some_or_log_err!(maze_config, self);
 
         // #WEIRD rust : gotta call bind() to access properties directly. Although! this enforces rusts borrow check rules nicely.
         let size = maze_config.bind().size;

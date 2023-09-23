@@ -1,5 +1,6 @@
 use godot::engine::RandomNumberGenerator;
 use godot::prelude::*;
+use crate::assert_some::assert_some_or_log_err;
 use crate::maze_scripts::helper_classes::reachability::{NEIGHBORS, Reachability};
 use crate::maze_scripts::maze_config::MazeConfigRs;
 use crate::maze_scripts::helper_classes::rng_extensions::RngExtensions;
@@ -31,14 +32,8 @@ impl NodeVirtual for WallCreatorRs {
     }
 
     fn ready(&mut self) {
-        let Some(wall_prefab) = &self.wall_prefab else {
-            godot_error!("Floor_prefab is required!");
-            return;
-        };
-        let Some(maze_config) = &self.maze_config else {
-            godot_error!("maze_config is required!");
-            return;
-        };
+        assert_some_or_log_err!(wall_prefab, self);
+        assert_some_or_log_err!(maze_config, self);
 
         let mut rng = RandomNumberGenerator::new();
 
