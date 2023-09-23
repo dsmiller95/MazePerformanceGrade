@@ -11,7 +11,7 @@ pub(crate) struct MazeConfigRs {
 #[godot_api]
 impl NodeVirtual for MazeConfigRs{
     // #WEIRD rust (ish): init is required to show up in godot add node menu
-    fn init(base: Base<Self::Base>) -> Self {
+    fn init(_: Base<Self::Base>) -> Self {
         Self { size: Vector2i::new(10, 10) }
     }
 }

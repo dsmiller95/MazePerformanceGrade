@@ -7,7 +7,7 @@ pub(crate) struct MazeReplayRs {
 
 #[godot_api]
 impl NodeVirtual for MazeReplayRs{
-    fn init(base: Base<Self::Base>) -> Self {
+    fn init(_: Base<Self::Base>) -> Self {
         Self { }
     }
 }
