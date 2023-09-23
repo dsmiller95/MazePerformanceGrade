@@ -66,6 +66,10 @@ mesh = SubResource("BoxMesh_beao1")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="maze world/maze/end marker/MeshInstance3D/Area3D"]
 shape = SubResource("BoxShape3D_yv4r8")
 
+[node name="PathHistoryRs" type="PathHistoryRs" parent="maze world/maze" node_paths=PackedStringArray("tracked", "maze_config")]
+tracked = NodePath("../../Player")
+maze_config = NodePath("../../../MazeConfigRs")
+
 [node name="Player tracker" type="Node3D" parent="maze world/maze" node_paths=PackedStringArray("tracked", "maze_config")]
 script = ExtResource("8_614wa")
 tracked = NodePath("../../Player")
@@ -91,14 +95,27 @@ maze_data = NodePath("../../Maze config")
 highlight_material = ExtResource("12_o7o7g")
 traveled_material = ExtResource("13_axuaa")
 
-[node name="End game handler" type="Node" parent="." node_paths=PackedStringArray("maze_cam", "replay", "score_text", "maze_config", "player_tracker", "maze_solvers")]
+[node name="MazeReplayRs" type="MazeReplayRs" parent="maze world" node_paths=PackedStringArray("floors", "maze_config")]
+floors = NodePath("../maze/FloorCreatorRs")
+maze_config = NodePath("../../MazeConfigRs")
+highlight_material = ExtResource("12_o7o7g")
+traveled_material = ExtResource("13_axuaa")
+
+[node name="End game handler" type="Node" parent="." node_paths=PackedStringArray("maze_cam", "score_text", "maze_config", "player_tracker", "maze_solvers")]
 script = ExtResource("14_2fvbv")
 maze_cam = NodePath("../maze world/maze/MazeCameraRs")
-replay = NodePath("../maze world/Maze replay")
 score_text = NodePath("../UI/VBoxContainer/RichTextLabel")
 maze_config = NodePath("../Maze config")
 player_tracker = NodePath("../maze world/maze/Player tracker")
 maze_solvers = [NodePath("../solvers/right hand rule"), NodePath("../solvers/left hand rule")]
+
+[node name="MazeEndHandlerRs" type="MazeEndHandlerRs" parent="." node_paths=PackedStringArray("maze_cam", "maze_replay", "score_text", "maze_config", "wall_creator", "player_tracker")]
+maze_cam = NodePath("../maze world/maze/MazeCameraRs")
+maze_replay = NodePath("../maze world/MazeReplayRs")
+score_text = NodePath("../UI/VBoxContainer/RichTextLabel")
+maze_config = NodePath("../MazeConfigRs")
+wall_creator = NodePath("../maze world/maze/WallCreatorRs")
+player_tracker = NodePath("../maze world/maze/PathHistoryRs")
 
 [node name="solvers" type="Node" parent="."]
 
@@ -111,5 +128,6 @@ keep_right = false
 
 [connection signal="area_entered" from="maze world/maze/end marker/MeshInstance3D/Area3D" to="End game handler" method="_on_end_marker_entered" flags=18]
 [connection signal="body_entered" from="maze world/maze/end marker/MeshInstance3D/Area3D" to="End game handler" method="_on_end_marker_entered" flags=18]
+[connection signal="body_entered" from="maze world/maze/end marker/MeshInstance3D/Area3D" to="MazeEndHandlerRs" method="on_body_entered_end_marker"]
 
 [editable path="UI"]

@@ -1,7 +1,7 @@
-use godot::prelude::*;
 use crate::assert_some::assert_some_or_log_err;
-use crate::maze_scripts::maze_config::MazeConfigRs;
 use crate::maze_scripts::helper_classes::box_iterator::BoxIterator;
+use crate::maze_scripts::maze_config::MazeConfigRs;
+use godot::prelude::*;
 
 #[derive(GodotClass)]
 #[class(base=Node3D)]
@@ -13,10 +13,10 @@ pub(crate) struct FloorCreatorRs {
     maze_config: Option<Gd<MazeConfigRs>>,
 
     #[export]
-    floors_indexed: Array<Gd<Node3D>>,
+    pub floors_indexed: Array<Gd<Node3D>>,
 
     #[base]
-    base: Base<Node3D>
+    base: Base<Node3D>,
 }
 
 #[godot_api]
@@ -30,7 +30,7 @@ impl Node3DVirtual for FloorCreatorRs {
             floor_prefab: None,
             maze_config: None,
             floors_indexed: Array::new(),
-            base
+            base,
         }
     }
 
@@ -40,7 +40,7 @@ impl Node3DVirtual for FloorCreatorRs {
 
         // #WEIRD rust : gotta call bind() to access properties directly. Although! this enforces rusts borrow check rules nicely.
         let size = maze_config.bind().size;
-        let mut floors : Vec<Gd<Node3D>> = vec![];
+        let mut floors: Vec<Gd<Node3D>> = vec![];
         let slice_size = (size.x * size.y) as usize;
         floors.reserve(slice_size);
         for tile in BoxIterator::from(size) {
