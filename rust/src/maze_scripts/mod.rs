@@ -6,4 +6,5 @@ mod maze_config;
 mod maze_end_handler;
 mod maze_replay;
 mod path_history;
+mod solvers;
 mod wall_creator;

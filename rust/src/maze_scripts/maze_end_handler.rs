@@ -2,6 +2,7 @@ use crate::maze_scripts::coroutines::maze_end_handler_ongoing::MazeEndHandlerOng
 use crate::maze_scripts::maze_config::MazeConfigRs;
 use crate::maze_scripts::maze_replay::MazeReplayRs;
 use crate::maze_scripts::path_history::PathHistoryRs;
+use crate::maze_scripts::solvers::hand_rule_solver::HandRuleSolverRs;
 use crate::maze_scripts::wall_creator::WallCreatorRs;
 use godot::engine::{RichTextLabel, Time};
 use godot::prelude::*;
@@ -17,16 +18,16 @@ pub(crate) struct MazeEndHandlerRs {
     #[export]
     score_text: Option<Gd<RichTextLabel>>,
     #[export]
-    maze_config: Option<Gd<MazeConfigRs>>,
+    pub maze_config: Option<Gd<MazeConfigRs>>,
     #[export]
-    wall_creator: Option<Gd<WallCreatorRs>>,
+    pub wall_creator: Option<Gd<WallCreatorRs>>,
     #[export]
     pub(crate) player_tracker: Option<Gd<PathHistoryRs>>,
     #[base]
     base: Base<Node>,
 
     #[export]
-    pub solvers: Array<Gd<Node>>,
+    pub solvers: Array<Gd<HandRuleSolverRs>>,
 
     #[export]
     pub(crate) replay_time_seconds: real,

@@ -24,12 +24,19 @@ impl Reachability {
         }
     }
 
+    pub fn size(&self) -> Vector2i {
+        self.reachable.size
+    }
+
     pub fn in_bounds(&self, cell: Vector2i) -> bool {
         return self.reachable.size.in_bounds(cell);
     }
 
     pub fn reachable(&self, cell: Vector2i) -> bool {
         self.reachable[cell]
+    }
+    pub fn traversable(&self, edge: &TileEdge) -> bool {
+        self.navigable_edges.contains(edge)
     }
 
     pub fn reach_between(&mut self, reached: Vector2i, new_reached: Vector2i) {

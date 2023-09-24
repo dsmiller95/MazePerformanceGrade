@@ -14,7 +14,7 @@ pub(crate) struct WallCreatorRs {
     #[export]
     maze_config: Option<Gd<MazeConfigRs>>,
 
-    reachable: Option<Reachability>,
+    pub reachable: Option<Reachability>,
 
     #[base]
     base: Base<Node3D>,

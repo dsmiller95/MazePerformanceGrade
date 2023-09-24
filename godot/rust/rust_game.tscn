@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cp3vo6uyxc2xw"]
+[gd_scene load_steps=16 format=3 uid="uid://cp3vo6uyxc2xw"]
 
 [ext_resource type="Script" path="res://gdscript/maze_scripts/maze_config.gd" id="1_7bph4"]
 [ext_resource type="PackedScene" uid="uid://b3jqsbhg2qyu6" path="res://maze_components/maze_floor.tscn" id="2_m8u8c"]
@@ -12,7 +12,6 @@
 [ext_resource type="Material" uid="uid://ckvcdcn2iue87" path="res://addons/character-controller/example/main/materials/wood.tres" id="12_o7o7g"]
 [ext_resource type="Material" uid="uid://wh8m6jb8ktpj" path="res://addons/character-controller/example/main/materials/water.tres" id="13_axuaa"]
 [ext_resource type="Script" path="res://gdscript/maze_scripts/maze_end_handler.gd" id="14_2fvbv"]
-[ext_resource type="Script" path="res://gdscript/maze_scripts/solvers/hand_rule.gd" id="15_flbe1"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ammq3"]
 transparency = 1
@@ -107,7 +106,7 @@ maze_cam = NodePath("../maze world/maze/MazeCameraRs")
 score_text = NodePath("../UI/VBoxContainer/RichTextLabel")
 maze_config = NodePath("../Maze config")
 player_tracker = NodePath("../maze world/maze/Player tracker")
-maze_solvers = [NodePath("../solvers/right hand rule"), NodePath("../solvers/left hand rule")]
+maze_solvers = [null, null]
 
 [node name="MazeEndHandlerRs" type="MazeEndHandlerRs" parent="." node_paths=PackedStringArray("maze_cam", "maze_replay", "score_text", "maze_config", "wall_creator", "player_tracker", "solvers")]
 maze_cam = NodePath("../maze world/maze/MazeCameraRs")
@@ -116,16 +115,14 @@ score_text = NodePath("../UI/VBoxContainer/RichTextLabel")
 maze_config = NodePath("../MazeConfigRs")
 wall_creator = NodePath("../maze world/maze/WallCreatorRs")
 player_tracker = NodePath("../maze world/maze/PathHistoryRs")
-solvers = [NodePath("../solvers/right hand rule")]
+solvers = [NodePath("../solvers/right hand rule"), NodePath("../solvers/left hand rule")]
 
 [node name="solvers" type="Node" parent="."]
 
-[node name="right hand rule" type="Node" parent="solvers"]
-script = ExtResource("15_flbe1")
+[node name="right hand rule" type="HandRuleSolverRs" parent="solvers"]
+keep_right = true
 
-[node name="left hand rule" type="Node" parent="solvers"]
-script = ExtResource("15_flbe1")
-keep_right = false
+[node name="left hand rule" type="HandRuleSolverRs" parent="solvers"]
 
 [connection signal="area_entered" from="maze world/maze/end marker/MeshInstance3D/Area3D" to="End game handler" method="_on_end_marker_entered" flags=18]
 [connection signal="body_entered" from="maze world/maze/end marker/MeshInstance3D/Area3D" to="End game handler" method="_on_end_marker_entered" flags=18]
