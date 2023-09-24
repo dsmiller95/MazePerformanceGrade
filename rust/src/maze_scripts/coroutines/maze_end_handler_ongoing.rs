@@ -21,6 +21,8 @@ struct MazeEndHandlerOngoingContext {
     pub maze_replay: Gd<MazeReplayRs>,
     pub wall_creator: Gd<WallCreatorRs>,
     pub maze_config: Gd<MazeConfigRs>,
+    pub solvers: Array<Gd<HandRuleSolverRs>>,
+    pub replay_time_seconds: real,
 }
 enum MazeEndHandlerState {
     PlayerReplay(MazeReplayOngoing),
@@ -37,6 +39,8 @@ impl MazeEndHandlerOngoing {
             maze_replay,
             wall_creator,
             maze_config,
+            solvers: context.solvers.clone(),
+            replay_time_seconds: context.replay_time_seconds,
         };
 
         inner_context.generate_first(context).map(|x| Self {
@@ -45,7 +49,7 @@ impl MazeEndHandlerOngoing {
         })
     }
 
-    pub fn try_move(&mut self, current_ms: u64, context: &mut MazeEndHandlerRs) -> Poll<()> {
+    pub fn try_move(&mut self, current_ms: u64) -> Poll<()> {
         let ongoing = match &mut self.state {
             PlayerReplay(ongoing) => ongoing,
             SolverReplay(ongoing, _) => ongoing,
@@ -57,7 +61,7 @@ impl MazeEndHandlerOngoing {
             return Pending;
         }
 
-        let next_state = self.context.generate_next(&self.state, context);
+        let next_state = self.context.generate_next(&self.state);
 
         match next_state {
             None => Ready(()),
@@ -79,39 +83,31 @@ impl MazeEndHandlerOngoingContext {
         ongoing.map(|x| PlayerReplay(x))
     }
 
-    fn generate_next(
-        &mut self,
-        prev_state: &MazeEndHandlerState,
-        context: &mut MazeEndHandlerRs,
-    ) -> Option<MazeEndHandlerState> {
+    fn generate_next(&mut self, prev_state: &MazeEndHandlerState) -> Option<MazeEndHandlerState> {
         match prev_state {
             PlayerReplay(_) => {
-                if context.solvers.is_empty() {
+                if self.solvers.is_empty() {
                     None
                 } else {
-                    let solver = context.solvers.get(0);
-                    let ongoing = self.begin_solve(context, solver);
+                    let solver = self.solvers.get(0);
+                    let ongoing = self.begin_solve(solver);
                     ongoing.map(|x| SolverReplay(x, 0))
                 }
             }
             SolverReplay(_, idx) => {
                 let next_index = idx + 1;
-                if next_index as usize >= context.solvers.len() {
+                if next_index as usize >= self.solvers.len() {
                     None
                 } else {
-                    let solver = context.solvers.get(next_index as usize);
-                    let ongoing = self.begin_solve(context, solver);
+                    let solver = self.solvers.get(next_index as usize);
+                    let ongoing = self.begin_solve(solver);
                     ongoing.map(|x| SolverReplay(x, next_index))
                 }
             }
         }
     }
 
-    fn begin_solve(
-        &mut self,
-        context: &mut MazeEndHandlerRs,
-        solver: Gd<HandRuleSolverRs>,
-    ) -> Option<MazeReplayOngoing> {
+    fn begin_solve(&mut self, solver: Gd<HandRuleSolverRs>) -> Option<MazeReplayOngoing> {
         let reachability = &self.wall_creator.bind().reachable;
         let config = self.maze_config.bind();
         let solution =
@@ -120,6 +116,6 @@ impl MazeEndHandlerOngoingContext {
                 .solve_maze(reachability.as_ref()?, config.entry, 0, config.exit);
         self.maze_replay
             .bind_mut()
-            .try_get_path_replay_ongoing(solution, (context.replay_time_seconds * 1000.0) as f64)
+            .try_get_path_replay_ongoing(solution, (self.replay_time_seconds * 1000.0) as f64)
     }
 }

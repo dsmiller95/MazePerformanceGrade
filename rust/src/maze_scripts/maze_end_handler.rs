@@ -59,7 +59,7 @@ impl NodeVirtual for MazeEndHandlerRs {
 
         let replay = self.pending.take();
         if let Some(mut replay) = replay {
-            let moved = replay.try_move(time_ms, self);
+            let moved = replay.try_move(time_ms);
             match moved {
                 Ready(_) => {
                     self.pending = None;
