@@ -8,6 +8,13 @@ The game logic is re-implemented in GDScript, C#, and Rust.
 All of the source files have rough equivalents in the other 2 languages, and
 hopefully this makes it easier to compare and contrast between the three.
 
+[rust scripts root](/rust/src/maze_scripts)
+
+[C# scripts root](/godot/csharp/maze_scripts)
+
+[GDScript scripts root](/godot/gdscript/maze_scripts)
+
+
 ## Gameplay
 
 https://github.com/dsmiller95/MazePerformanceGrade/assets/3212309/492119f6-802d-427e-b04f-4cbc97919a15
