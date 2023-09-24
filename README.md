@@ -11,10 +11,16 @@ hopefully this makes it easier to compare and contrast between the three.
 ## Gameplay
 
 ![image](_readme_assets/maze_grader.mp4)
+
 ![](_readme_assets/maze_grader.mp4)
+
 _readme_assets/maze_grader.mp4
+
 ./_readme_assets/maze_grader.mp4
 
+<video width="320" height="240" controls>
+  <source src="_readme_assets/maze_grader.mp4" type="video/mp4">
+</video>
 
 ## Weird
 
