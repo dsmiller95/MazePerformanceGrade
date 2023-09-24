@@ -1,11 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://cp3vo6uyxc2xw"]
+[gd_scene load_steps=12 format=3 uid="uid://cp3vo6uyxc2xw"]
 
 [ext_resource type="Script" path="res://gdscript/maze_scripts/maze_config.gd" id="1_7bph4"]
 [ext_resource type="PackedScene" uid="uid://b3jqsbhg2qyu6" path="res://maze_components/maze_floor.tscn" id="2_m8u8c"]
 [ext_resource type="PackedScene" uid="uid://c0vcnvlnscvpa" path="res://ui.tscn" id="2_rc1d4"]
 [ext_resource type="Script" path="res://gdscript/level.gd" id="3_gi633"]
 [ext_resource type="PackedScene" uid="uid://cfoe6ek2guyew" path="res://maze_components/maze_wall.tscn" id="5_gfqbq"]
-[ext_resource type="Script" path="res://gdscript/maze_scripts/maze_features.gd" id="7_mf153"]
 [ext_resource type="PackedScene" uid="uid://2oxdgu03lnbk" path="res://addons/character-controller/example/main/player.tscn" id="10_5tc6k"]
 [ext_resource type="Material" uid="uid://ckvcdcn2iue87" path="res://addons/character-controller/example/main/materials/wood.tres" id="12_o7o7g"]
 [ext_resource type="Material" uid="uid://wh8m6jb8ktpj" path="res://addons/character-controller/example/main/materials/water.tres" id="13_axuaa"]
@@ -44,9 +43,8 @@ maze_config = NodePath("../../../MazeConfigRs")
 floor_prefab = ExtResource("2_m8u8c")
 maze_config = NodePath("../../../MazeConfigRs")
 
-[node name="Features" type="Node3D" parent="maze world/maze" node_paths=PackedStringArray("maze_data", "exit_feature", "entry_feature")]
-script = ExtResource("7_mf153")
-maze_data = NodePath("../../../Maze config")
+[node name="MazeFeaturesRs" type="MazeFeaturesRs" parent="maze world/maze" node_paths=PackedStringArray("maze_config", "exit_feature", "entry_feature")]
+maze_config = NodePath("../../../MazeConfigRs")
 exit_feature = NodePath("../end marker")
 entry_feature = NodePath("../../Player")
 

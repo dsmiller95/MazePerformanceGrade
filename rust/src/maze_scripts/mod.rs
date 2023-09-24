@@ -4,6 +4,7 @@ mod helper_classes;
 mod maze_camera;
 mod maze_config;
 mod maze_end_handler;
+mod maze_features;
 mod maze_replay;
 mod path_history;
 mod solvers;
