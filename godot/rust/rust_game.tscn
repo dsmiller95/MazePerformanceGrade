@@ -18,7 +18,7 @@ emission = Color(0.698039, 0.470588, 0.698039, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yv4r8"]
 
-[node name="rust game" type="Node"]
+[node name="Rust Game" type="Node"]
 
 [node name="MazeConfigRs" type="MazeConfigRs" parent="."]
 

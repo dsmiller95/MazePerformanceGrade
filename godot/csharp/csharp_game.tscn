@@ -16,7 +16,7 @@
 [ext_resource type="Material" uid="uid://ckvcdcn2iue87" path="res://addons/character-controller/example/main/materials/wood.tres" id="10_g8ccr"]
 [ext_resource type="Material" uid="uid://wh8m6jb8ktpj" path="res://addons/character-controller/example/main/materials/water.tres" id="11_js12b"]
 
-[node name="Csharp game" instance=ExtResource("1_po80r")]
+[node name="Csharp Game" instance=ExtResource("1_po80r")]
 
 [node name="Maze config" parent="." index="0"]
 script = ExtResource("2_r6byf")

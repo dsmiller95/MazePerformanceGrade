@@ -1,11 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://bt4kakglvhfid"]
+[gd_scene load_steps=6 format=3 uid="uid://bt4kakglvhfid"]
 
 [ext_resource type="Script" path="res://gdscript/typing_weird.gd" id="1_ru3wq"]
 [ext_resource type="PackedScene" uid="uid://cp3vo6uyxc2xw" path="res://rust/rust_game.tscn" id="2_1yl24"]
+[ext_resource type="PackedScene" uid="uid://dldfnuewkps0f" path="res://gdscript/gd_script_game.tscn" id="3_habdp"]
+[ext_resource type="Script" path="res://PickLanguage.cs" id="3_juoqp"]
+[ext_resource type="PackedScene" uid="uid://bq7aq8hpt7qpi" path="res://csharp/csharp_game.tscn" id="4_xkkao"]
 
 [node name="game_scene" type="Node"]
 
 [node name="weird typing" type="Node" parent="."]
 script = ExtResource("1_ru3wq")
 
-[node name="rust game" parent="." instance=ExtResource("2_1yl24")]
+[node name="ItemList" type="ItemList" parent="."]
+offset_left = 153.0
+offset_top = 105.0
+offset_right = 992.0
+offset_bottom = 588.0
+item_count = 3
+item_0/text = "Rust"
+item_1/text = "C#"
+item_2/text = "Gdscript"
+script = ExtResource("3_juoqp")
+childScenes = [ExtResource("3_habdp"), ExtResource("4_xkkao"), ExtResource("2_1yl24")]
