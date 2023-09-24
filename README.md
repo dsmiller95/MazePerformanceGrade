@@ -10,7 +10,10 @@ hopefully this makes it easier to compare and contrast between the three.
 
 ## Gameplay
 
+![image](_readme_assets/maze_grader.mp4)
 ![](_readme_assets/maze_grader.mp4)
+_readme_assets/maze_grader.mp4
+./_readme_assets/maze_grader.mp4
 
 
 ## Weird
