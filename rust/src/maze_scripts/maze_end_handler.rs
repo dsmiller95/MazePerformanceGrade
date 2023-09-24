@@ -23,8 +23,6 @@ pub(crate) struct MazeEndHandlerRs {
     pub wall_creator: Option<Gd<WallCreatorRs>>,
     #[export]
     pub(crate) player_tracker: Option<Gd<PathHistoryRs>>,
-    #[base]
-    base: Base<Node>,
 
     #[export]
     pub solvers: Array<Gd<HandRuleSolverRs>>,
@@ -37,7 +35,7 @@ pub(crate) struct MazeEndHandlerRs {
 
 #[godot_api]
 impl NodeVirtual for MazeEndHandlerRs {
-    fn init(base: Base<Self::Base>) -> Self {
+    fn init(_base: Base<Self::Base>) -> Self {
         Self {
             maze_cam: None,
             maze_replay: None,
@@ -45,7 +43,6 @@ impl NodeVirtual for MazeEndHandlerRs {
             maze_config: None,
             wall_creator: None,
             player_tracker: None,
-            base,
 
             solvers: array![],
 

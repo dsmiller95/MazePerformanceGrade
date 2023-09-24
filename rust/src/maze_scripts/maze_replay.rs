@@ -19,22 +19,18 @@ pub(crate) struct MazeReplayRs {
     #[export]
     pub traveled_material: Option<Gd<Material>>,
 
-    #[base]
-    base: Base<Node>,
-
     pending: Option<MazeReplayOngoing>,
 }
 
 #[godot_api]
 impl NodeVirtual for MazeReplayRs {
-    fn init(base: Base<Self::Base>) -> Self {
+    fn init(_base: Base<Self::Base>) -> Self {
         Self {
             floors: None,
             maze_config: None,
             highlight_material: None,
             traveled_material: None,
 
-            base,
             pending: None,
         }
     }
@@ -61,6 +57,7 @@ impl NodeVirtual for MazeReplayRs {
 impl MazeReplayRs {
     // #WEIRD rust : no async? might be impossible to do coroutines. or perhaps simply not ergonomic. async may be available for rust on godot 3.x
     // #WEIRD rust : forces us to implement a custom coroutine-like framework
+    #[allow(dead_code)]
     pub fn begin_path_replay(
         &mut self,
         path: Vec<HistoricPosition>,
