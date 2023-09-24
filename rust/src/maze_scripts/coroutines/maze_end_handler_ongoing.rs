@@ -8,6 +8,7 @@ use crate::maze_scripts::maze_end_handler::MazeEndHandlerRs;
 use crate::maze_scripts::maze_replay::MazeReplayRs;
 use crate::maze_scripts::solvers::hand_rule_solver::HandRuleSolverRs;
 use crate::maze_scripts::wall_creator::WallCreatorRs;
+use godot::engine::RichTextLabel;
 use godot::prelude::*;
 use std::task::Poll;
 use std::task::Poll::*;
@@ -21,6 +22,7 @@ struct MazeEndHandlerOngoingContext {
     pub maze_replay: Gd<MazeReplayRs>,
     pub wall_creator: Gd<WallCreatorRs>,
     pub maze_config: Gd<MazeConfigRs>,
+    pub score_text: Gd<RichTextLabel>,
     pub solvers: Array<Gd<HandRuleSolverRs>>,
     pub replay_time_seconds: real,
 }
@@ -34,11 +36,13 @@ impl MazeEndHandlerOngoing {
         clone_some_or_log_err_none!(maze_replay, context);
         clone_some_or_log_err_none!(wall_creator, context);
         clone_some_or_log_err_none!(maze_config, context);
+        clone_some_or_log_err_none!(score_text, context);
 
         let mut inner_context = MazeEndHandlerOngoingContext {
             maze_replay,
             wall_creator,
             maze_config,
+            score_text,
             solvers: context.solvers.clone(),
             replay_time_seconds: context.replay_time_seconds,
         };
@@ -76,11 +80,16 @@ impl MazeEndHandlerOngoing {
 impl MazeEndHandlerOngoingContext {
     fn generate_first(&mut self, context: &mut MazeEndHandlerRs) -> Option<MazeEndHandlerState> {
         let player_path_history = context.player_tracker.as_ref()?.bind().path_history.clone();
-        let ongoing = self.maze_replay.bind_mut().try_get_path_replay_ongoing(
-            player_path_history,
-            (context.replay_time_seconds * 1000.0) as f64,
-        );
-        ongoing.map(|x| PlayerReplay(x))
+        self.score_text
+            .append_text(format!("player: {}\n", player_path_history.len()).into());
+
+        self.maze_replay
+            .bind_mut()
+            .try_get_path_replay_ongoing(
+                player_path_history,
+                (context.replay_time_seconds * 1000.0) as f64,
+            )
+            .map(|x| PlayerReplay(x))
     }
 
     fn generate_next(&mut self, prev_state: &MazeEndHandlerState) -> Option<MazeEndHandlerState> {
@@ -114,6 +123,9 @@ impl MazeEndHandlerOngoingContext {
             solver
                 .bind()
                 .solve_maze(reachability.as_ref()?, config.entry, 0, config.exit);
+
+        self.score_text
+            .append_text(format!("{}: {}\n", solver.get_name(), solution.len()).into());
         self.maze_replay
             .bind_mut()
             .try_get_path_replay_ongoing(solution, (self.replay_time_seconds * 1000.0) as f64)

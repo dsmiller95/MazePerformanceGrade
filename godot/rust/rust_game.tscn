@@ -1,6 +1,5 @@
-[gd_scene load_steps=12 format=3 uid="uid://cp3vo6uyxc2xw"]
+[gd_scene load_steps=11 format=3 uid="uid://cp3vo6uyxc2xw"]
 
-[ext_resource type="Script" path="res://gdscript/maze_scripts/maze_config.gd" id="1_7bph4"]
 [ext_resource type="PackedScene" uid="uid://b3jqsbhg2qyu6" path="res://maze_components/maze_floor.tscn" id="2_m8u8c"]
 [ext_resource type="PackedScene" uid="uid://c0vcnvlnscvpa" path="res://ui.tscn" id="2_rc1d4"]
 [ext_resource type="Script" path="res://gdscript/level.gd" id="3_gi633"]
@@ -20,10 +19,6 @@ emission = Color(0.698039, 0.470588, 0.698039, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_yv4r8"]
 
 [node name="rust game" type="Node"]
-
-[node name="Maze config" type="Node" parent="."]
-script = ExtResource("1_7bph4")
-exit = Vector2i(9, 9)
 
 [node name="MazeConfigRs" type="MazeConfigRs" parent="."]
 

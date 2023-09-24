@@ -16,7 +16,7 @@ pub(crate) struct MazeEndHandlerRs {
     #[export]
     pub maze_replay: Option<Gd<MazeReplayRs>>,
     #[export]
-    score_text: Option<Gd<RichTextLabel>>,
+    pub score_text: Option<Gd<RichTextLabel>>,
     #[export]
     pub maze_config: Option<Gd<MazeConfigRs>>,
     #[export]
