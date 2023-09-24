@@ -56,7 +56,7 @@ impl NodeVirtual for MazeReplayRs {
 #[godot_api]
 impl MazeReplayRs {
     // #WEIRD rust : no async? might be impossible to do coroutines. or perhaps simply not ergonomic. async may be available for rust on godot 3.x
-    // #WEIRD rust : forces us to implement a custom coroutine-like framework
+    // #WEIRD rust : I just implement a custom coroutine-like framework
     #[allow(dead_code)]
     pub fn begin_path_replay(
         &mut self,

@@ -26,5 +26,5 @@ impl NodeVirtual for MazeConfigRs {
 
 #[godot_api]
 impl MazeConfigRs {
-    // #WEIRD rust : this impl block is always mandatory? interesting
+    // #WEIRD rust : this impl block is always mandatory?
 }

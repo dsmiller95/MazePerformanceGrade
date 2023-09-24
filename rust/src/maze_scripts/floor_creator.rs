@@ -23,7 +23,6 @@ pub(crate) struct FloorCreatorRs {
 impl FloorCreatorRs {}
 
 #[godot_api]
-// #WEIRD rust : be sure to
 impl Node3DVirtual for FloorCreatorRs {
     fn init(base: Base<Self::Base>) -> Self {
         Self {
