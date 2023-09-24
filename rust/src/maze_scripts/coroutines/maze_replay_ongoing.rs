@@ -10,16 +10,23 @@ use std::collections::VecDeque;
 use std::task::Poll;
 use std::task::Poll::{Pending, Ready};
 
-pub(crate) struct MazeReplayOngoing {
+pub(crate) struct MazeReplayOngoingContext {
     pub highlight_material: Gd<Material>,
     pub traveled_material: Gd<Material>,
     pub maze_config: Gd<MazeConfigRs>,
     pub floors: Gd<FloorCreatorRs>,
+    time_scale: f64,
+}
 
+pub(crate) struct MazeReplayOngoingState {
     last_position: Option<HistoricPosition>,
     remaining_positions: VecDeque<HistoricPosition>,
     next_action_ms: u64,
-    time_scale: f64,
+}
+
+pub(crate) struct MazeReplayOngoing {
+    context: MazeReplayOngoingContext,
+    state: MazeReplayOngoingState,
 }
 
 impl MazeReplayOngoing {
@@ -35,56 +42,61 @@ impl MazeReplayOngoing {
         clone_some_or_log_err_none!(floors, context);
 
         Some(Self {
-            traveled_material,
-            highlight_material,
-            maze_config,
-            floors,
-
-            last_position: None,
-            remaining_positions: path,
-            next_action_ms: current_time,
-            time_scale,
+            context: MazeReplayOngoingContext {
+                traveled_material,
+                highlight_material,
+                maze_config,
+                floors,
+                time_scale,
+            },
+            state: MazeReplayOngoingState {
+                last_position: None,
+                remaining_positions: path,
+                next_action_ms: current_time,
+            },
         })
     }
 
     pub fn try_move(&mut self, current_ms: u64) -> Poll<()> {
-        if current_ms < self.next_action_ms {
+        if current_ms < self.state.next_action_ms {
             return Pending;
         }
 
         match self.next_move() {
             Some(Wait::DelayMs(delay)) => {
-                self.next_action_ms += delay;
+                self.state.next_action_ms += delay;
                 Pending
             }
             None => Ready(()),
         }
     }
     fn next_move(&mut self) -> Option<Wait> {
-        let Some(current_pos) = self.remaining_positions.pop_front() else {
+        let Some(current_pos) = self.state.remaining_positions.pop_front() else {
             return None;
         };
 
-        self.highlight_tile(current_pos.tile, self.highlight_material.clone());
+        self.highlight_tile(current_pos.tile, self.context.highlight_material.clone());
 
         let mut delay = 0;
-        if let Some(next_pos) = self.remaining_positions.front() {
+        if let Some(next_pos) = self.state.remaining_positions.front() {
             delay = next_pos.time_ms - current_pos.time_ms;
         }
 
-        if let Some(last_pos) = &self.last_position {
-            self.highlight_tile(last_pos.tile, self.traveled_material.clone());
+        if let Some(last_pos) = &self.state.last_position {
+            self.highlight_tile(last_pos.tile, self.context.traveled_material.clone());
         }
 
-        self.last_position = Some(current_pos);
-        Some(Wait::DelayMs((delay as f64 * self.time_scale) as u64))
+        self.state.last_position = Some(current_pos);
+        Some(Wait::DelayMs(
+            (delay as f64 * self.context.time_scale) as u64,
+        ))
     }
 
     pub fn highlight_tile(&mut self, tile: Vector2i, material: Gd<Material>) {
         godot_print!("replaying over tile {}", tile);
 
-        let size = self.maze_config.bind().size;
-        let floors = self.floors.bind_mut();
+        let size = self.context.maze_config.bind().size;
+        let floors = self.context.floors.bind_mut();
         let floor = floors
             .floors_indexed
             .get((tile.x + tile.y * size.x) as usize);
