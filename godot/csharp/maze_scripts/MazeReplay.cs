@@ -58,6 +58,6 @@ public partial class MazeReplay : Node
 			return;
 		}
 
-		mesh.MaterialOverlay = material;
+		mesh.MaterialOverride = material;
 	}
 }
