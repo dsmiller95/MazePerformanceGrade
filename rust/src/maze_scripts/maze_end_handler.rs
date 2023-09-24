@@ -93,6 +93,8 @@ impl MazeEndHandlerRs {
             return None;
         }
 
+        self.maze_cam.as_mut()?.make_current();
+
         self.pending = MazeEndHandlerOngoing::try_new(self);
 
         Some(())
