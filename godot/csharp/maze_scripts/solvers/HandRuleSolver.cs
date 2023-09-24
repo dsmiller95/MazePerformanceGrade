@@ -1,8 +1,8 @@
-using Godot;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using MazePerformanceGrade.csharp.helper_classes;
+using Godot;
+using MazePerformanceGrade.csharp.maze_scripts.helper_classes;
+
+namespace MazePerformanceGrade.csharp.maze_scripts.solvers;
 
 public partial class HandRuleSolver : Solver
 {

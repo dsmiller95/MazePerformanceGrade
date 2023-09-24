@@ -1,6 +1,6 @@
 using Godot;
 
-namespace MazePerformanceGrade.csharp.helper_classes;
+namespace MazePerformanceGrade.csharp.maze_scripts.helper_classes;
 
 // #WEIRD: C# allows us to implement custom equality, via things like record. godot has no equivalent.
 public readonly record struct TileEdge
@@ -27,22 +27,12 @@ public readonly record struct TileEdge
         B = b;
     }
 
-    
-    public static Vector3 To3DFrom2D(Vector2I flat)
+
+    private static Vector3 To3DFrom2D(Vector2I flat)
     {
         return new Vector3(flat.X, 0, flat.Y);
     }
 
-    public int GetStableIdInDomain(Vector2I size)
-    {
-        var minVec = Utils.PartsWise(A, B, Mathf.Min);
-        var maxVec = Utils.PartsWise(A, B, Mathf.Max);
-        
-        var min = minVec.X + minVec.Y * size.X;
-        var max = maxVec.X + maxVec.Y * size.X;
-        return min + max * (size.X * size.Y);
-    }
-    
     public void SpawnWallAtEdge(PackedScene wallPrefab, Node parent)
     {
         var worldA = To3DFrom2D(A);

@@ -1,20 +1,22 @@
-using Godot;
 using System;
 using System.Threading.Tasks;
-using MazePerformanceGrade.csharp.helper_classes;
+using Godot;
+using MazePerformanceGrade.csharp.maze_scripts.solvers;
+
+namespace MazePerformanceGrade.csharp.maze_scripts;
 
 public partial class MazeEndHandler : Node
 {
-	[Export] private Camera3D mazeCam;
+	[Export] private Camera3D? mazeCam;
 	// #WEIRD selecting a reference to a custom C# class in the godot editor does not filter for implementations of that type. it does for gdscript classes. why not C# too? 
-	[Export] private MazeReplay mazeReplay;
-	[Export] private RichTextLabel scoreText;
+	[Export] private MazeReplay? mazeReplay;
+	[Export] private RichTextLabel? scoreText;
 	
-	[Export] private MazeConfig mazeConfig;
-	[Export] private WallCreator wallCreator;
+	[Export] private MazeConfig? mazeConfig;
+	[Export] private WallCreator? wallCreator;
 	 
-	[Export] private PathHistory playerTracker;
-	[Export] private Solver[] mazeSolvers;
+	[Export] private PathHistory? playerTracker;
+	[Export] private Solver[] mazeSolvers = Array.Empty<Solver>();
 	[Export] private float replayTotalTimeSeconds = 5;
 	
 	private void OnBodyEnteredEndMarker(Node3D area)
@@ -26,16 +28,6 @@ public partial class MazeEndHandler : Node
 	{
 		GD.Print("stub end marker entered");
 	}
-	
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
 
 	private bool isEndGameRunning = false;
 	private async Task PlayEndGame()
@@ -44,6 +36,12 @@ public partial class MazeEndHandler : Node
 			return;
 		isEndGameRunning = true;
 		
+		ArgumentNullException.ThrowIfNull(mazeCam);
+		ArgumentNullException.ThrowIfNull(playerTracker);
+		ArgumentNullException.ThrowIfNull(mazeReplay);
+		ArgumentNullException.ThrowIfNull(scoreText);
+		ArgumentNullException.ThrowIfNull(wallCreator?.Reachable);
+		ArgumentNullException.ThrowIfNull(mazeConfig);
 		
 		mazeCam.MakeCurrent();
 		var playerPathHistory = playerTracker.pathHistory;
@@ -53,7 +51,7 @@ public partial class MazeEndHandler : Node
 
 		foreach (var solver in mazeSolvers)
 		{
-			var solution = solver.SolveMaze(wallCreator.reachable, mazeConfig.entry, 0, mazeConfig.exit);
+			var solution = solver.SolveMaze(wallCreator.Reachable, mazeConfig.entry, 0, mazeConfig.exit);
 			
 			await mazeReplay.BeginPathReplay(solution, replayTotalTimeSeconds * 1000);
 			

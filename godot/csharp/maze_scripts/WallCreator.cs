@@ -1,23 +1,24 @@
 using System;
 using Godot;
-using MazePerformanceGrade.csharp.helper_classes;
+using MazePerformanceGrade.csharp.maze_scripts.helper_classes;
+
+namespace MazePerformanceGrade.csharp.maze_scripts;
 
 public partial class WallCreator : Node
 {
-	[Export] private PackedScene wallPrefab;
-	[Export] private MazeConfig mazeConfig;
+	[Export] private PackedScene? wallPrefab;
+	[Export] private MazeConfig? mazeConfig;
 	
 	private TileEdge[] walls = Array.Empty<TileEdge>();
-	public Reachability reachable { get; private set; } = null!;
-	
+	public Reachability? Reachable { get; private set; }
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		ArgumentNullException.ThrowIfNull(wallPrefab);
 		ArgumentNullException.ThrowIfNull(mazeConfig);
 		
-		reachable = RandomizedDfsWalls(mazeConfig.size, new RandomNumberGenerator());
-		walls = reachable.GetWalls();
+		Reachable = RandomizedDfsWalls(mazeConfig.size, new RandomNumberGenerator());
+		walls = Reachable.GetWalls();
 		foreach (var wall in walls)
 		{
 			wall.SpawnWallAtEdge(wallPrefab, this);

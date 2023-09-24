@@ -1,17 +1,19 @@
 using Godot;
 
+namespace MazePerformanceGrade;
+
 public partial class PickLanguage : ItemList
 {
 	[Export] private Godot.Collections.Array< PackedScene> childScenes = new();
 	
 	public override void _Ready()
 	{
-		this.Clear();
+		Clear();
 		foreach (var child in childScenes)
 		{
-			this.AddItem("scene: " + child.GetState().GetNodeName(0));
+			AddItem("scene: " + child.GetState().GetNodeName(0));
 		}
-		this.ItemClicked += OnItemClicked;
+		ItemClicked += OnItemClicked;
 	}
 
 	private void OnItemClicked(long index, Vector2 atposition, long mousebuttonindex)

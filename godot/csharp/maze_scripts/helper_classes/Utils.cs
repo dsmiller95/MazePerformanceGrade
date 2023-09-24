@@ -2,7 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using Godot;
 
-namespace MazePerformanceGrade.csharp.helper_classes;
+namespace MazePerformanceGrade.csharp.maze_scripts.helper_classes;
 
 public static class Utils
 {
@@ -17,10 +17,5 @@ public static class Utils
             throw new ArgumentException("floorPrefab must be a " + typeof(T).Name, paramName);
         }
         return castedNode;
-    }
-    
-    public static Vector2I PartsWise(Vector2I a, Vector2I b, Func<int, int, int> func)
-    {
-        return new Vector2I(func(a.X, b.X), func(a.Y, b.Y));
     }
 }

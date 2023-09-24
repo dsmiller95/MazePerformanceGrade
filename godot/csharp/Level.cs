@@ -1,5 +1,7 @@
 using Godot;
 
+namespace MazePerformanceGrade.csharp;
+
 public partial class Level : Node3D
 {
 	[Export] private bool fastClose;

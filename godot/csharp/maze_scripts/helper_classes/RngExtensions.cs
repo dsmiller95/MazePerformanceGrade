@@ -1,6 +1,6 @@
 using Godot;
 
-namespace MazePerformanceGrade.csharp.helper_classes;
+namespace MazePerformanceGrade.csharp.maze_scripts.helper_classes;
 
 public static class RngExtensions
 {

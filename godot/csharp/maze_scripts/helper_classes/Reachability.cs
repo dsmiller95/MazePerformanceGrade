@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
-namespace MazePerformanceGrade.csharp.helper_classes;
+namespace MazePerformanceGrade.csharp.maze_scripts.helper_classes;
 
 public partial class Reachability : GodotObject
 {
@@ -76,7 +76,7 @@ public partial class Reachability : GodotObject
         return walls;
     }
 
-    public static TileEdge[] AllEdges(Vector2I size)
+    private static TileEdge[] AllEdges(Vector2I size)
     {
         var edges = new List<TileEdge>();
         for (int x = 0; x < size.X - 1; x++)

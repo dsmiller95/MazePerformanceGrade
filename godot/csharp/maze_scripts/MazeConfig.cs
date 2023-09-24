@@ -1,5 +1,7 @@
 using Godot;
 
+namespace MazePerformanceGrade.csharp.maze_scripts;
+
 public partial class MazeConfig : Node
 {
 	[Export]

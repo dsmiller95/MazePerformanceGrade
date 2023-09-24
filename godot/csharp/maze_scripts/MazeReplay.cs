@@ -1,16 +1,18 @@
-using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MazePerformanceGrade.csharp.helper_classes;
+using Godot;
+using MazePerformanceGrade.csharp.maze_scripts.helper_classes;
+
+namespace MazePerformanceGrade.csharp.maze_scripts;
 
 public partial class MazeReplay : Node
 {
-	[Export] private FloorCreator floors;
-	[Export] private MazeConfig mazeConfig;
-	[Export] private Material highlightMaterial;
-	[Export] private Material traveledMaterial;
+	[Export] private FloorCreator? floors;
+	[Export] private MazeConfig? mazeConfig;
+	[Export] private Material? highlightMaterial;
+	[Export] private Material? traveledMaterial;
 	
 
 	private bool isReplayingPath = false;
@@ -24,6 +26,9 @@ public partial class MazeReplay : Node
 		}
 
 		isReplayingPath = true;
+		
+		ArgumentNullException.ThrowIfNull(highlightMaterial);
+		ArgumentNullException.ThrowIfNull(traveledMaterial);
 
 		var totalTime = path.Last().TimeMs - path.First().TimeMs;
 		var adjustment = replayTimeMs / (float)totalTime;
@@ -49,6 +54,9 @@ public partial class MazeReplay : Node
 	
 	private void HighlightTile(Vector2I tile, Material material)
 	{
+		ArgumentNullException.ThrowIfNull(floors);
+		ArgumentNullException.ThrowIfNull(mazeConfig);
+		
 		GD.Print("replaying over tile " + tile);
 		var floor = floors.floors_indexed[tile.X + tile.Y * mazeConfig.size.X];
 		var mesh = floor.FindChild("MeshInstance3D") as MeshInstance3D;

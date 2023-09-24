@@ -1,6 +1,7 @@
 using Godot;
-using System;
-using MazePerformanceGrade.csharp.helper_classes;
+using MazePerformanceGrade.csharp.maze_scripts.helper_classes;
+
+namespace MazePerformanceGrade.csharp.maze_scripts.solvers;
 
 public partial class Solver : Node
 {

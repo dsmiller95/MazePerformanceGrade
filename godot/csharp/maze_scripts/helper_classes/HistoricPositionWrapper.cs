@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Godot;
 
-namespace MazePerformanceGrade.csharp.helper_classes;
+namespace MazePerformanceGrade.csharp.maze_scripts.helper_classes;
 
 /// <summary>
 /// example of a class which can wrap over a godot object and make it look like a C# type

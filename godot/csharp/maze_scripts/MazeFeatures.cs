@@ -1,5 +1,7 @@
-using Godot;
 using System;
+using Godot;
+
+namespace MazePerformanceGrade.csharp.maze_scripts;
 
 public partial class MazeFeatures : Node3D
 {

@@ -1,15 +1,17 @@
-using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MazePerformanceGrade.csharp.helper_classes;
+using Godot;
+using MazePerformanceGrade.csharp.maze_scripts.helper_classes;
+
+namespace MazePerformanceGrade.csharp.maze_scripts;
 
 public partial class PathHistory : Node3D
 {
 	[Export] private Node3D? tracked;
 	[Export] private MazeConfig? mazeConfig;
 
-	public List<HistoricPosition> pathHistory { get; private set; } = new List<HistoricPosition>();
+	public List<HistoricPosition> pathHistory { get; } = new();
 	
 	public override void _PhysicsProcess(double delta)
 	{
