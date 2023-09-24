@@ -1,9 +1,11 @@
+use crate::maze_scripts::coroutines::maze_end_handler_ongoing::MazeEndHandlerOngoing;
 use crate::maze_scripts::maze_config::MazeConfigRs;
 use crate::maze_scripts::maze_replay::MazeReplayRs;
 use crate::maze_scripts::path_history::PathHistoryRs;
 use crate::maze_scripts::wall_creator::WallCreatorRs;
-use godot::engine::RichTextLabel;
+use godot::engine::{RichTextLabel, Time};
 use godot::prelude::*;
+use std::task::Poll::*;
 
 #[derive(GodotClass)]
 #[class(base=Node)]
@@ -11,7 +13,7 @@ pub(crate) struct MazeEndHandlerRs {
     #[export]
     maze_cam: Option<Gd<Camera3D>>,
     #[export]
-    maze_replay: Option<Gd<MazeReplayRs>>,
+    pub maze_replay: Option<Gd<MazeReplayRs>>,
     #[export]
     score_text: Option<Gd<RichTextLabel>>,
     #[export]
@@ -19,14 +21,17 @@ pub(crate) struct MazeEndHandlerRs {
     #[export]
     wall_creator: Option<Gd<WallCreatorRs>>,
     #[export]
-    player_tracker: Option<Gd<PathHistoryRs>>,
+    pub(crate) player_tracker: Option<Gd<PathHistoryRs>>,
     #[base]
     base: Base<Node>,
 
     #[export]
-    replay_time_seconds: real,
+    pub solvers: Array<Gd<Node>>,
 
-    is_end_running: bool,
+    #[export]
+    pub(crate) replay_time_seconds: real,
+
+    pending: Option<MazeEndHandlerOngoing>,
 }
 
 #[godot_api]
@@ -41,8 +46,28 @@ impl NodeVirtual for MazeEndHandlerRs {
             player_tracker: None,
             base,
 
+            solvers: array![],
+
             replay_time_seconds: real!(5.0),
-            is_end_running: false,
+            pending: None,
+        }
+    }
+
+    fn process(&mut self, _delta: f64) {
+        let time_ms = Time::singleton().get_ticks_msec();
+
+        let replay = self.pending.take();
+        if let Some(mut replay) = replay {
+            let moved = replay.try_move(time_ms, self);
+            match moved {
+                Ready(_) => {
+                    self.pending = None;
+                    godot_print!("maze end handling done.")
+                }
+                Pending => {
+                    self.pending = Some(replay);
+                }
+            }
         }
     }
 }
@@ -62,19 +87,12 @@ impl MazeEndHandlerRs {
 
 impl MazeEndHandlerRs {
     fn play_end_game(&mut self) -> Option<()> {
-        if self.is_end_running {
+        if let Some(_) = self.pending {
+            godot_error!("currently playing end, cannot play another");
             return None;
         }
-        self.is_end_running = true;
 
-        self.maze_cam.as_mut()?.make_current();
-
-        let player_path_history = self.player_tracker.as_ref()?.bind().path_history.clone();
-
-        self.maze_replay.as_mut()?.bind_mut().begin_path_replay(
-            player_path_history,
-            (self.replay_time_seconds * 1000.0) as f64,
-        );
+        self.pending = MazeEndHandlerOngoing::try_new(self);
 
         Some(())
     }

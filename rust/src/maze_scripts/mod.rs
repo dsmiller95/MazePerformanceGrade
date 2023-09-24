@@ -1,9 +1,9 @@
+mod coroutines;
 mod floor_creator;
 mod helper_classes;
 mod maze_camera;
 mod maze_config;
 mod maze_end_handler;
 mod maze_replay;
-mod maze_replay_ongoing;
 mod path_history;
 mod wall_creator;

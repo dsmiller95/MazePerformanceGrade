@@ -108,16 +108,15 @@ score_text = NodePath("../UI/VBoxContainer/RichTextLabel")
 maze_config = NodePath("../Maze config")
 player_tracker = NodePath("../maze world/maze/Player tracker")
 maze_solvers = [NodePath("../solvers/right hand rule"), NodePath("../solvers/left hand rule")]
-replay_total_time_seconds = 20.0
 
-[node name="MazeEndHandlerRs" type="MazeEndHandlerRs" parent="." node_paths=PackedStringArray("maze_cam", "maze_replay", "score_text", "maze_config", "wall_creator", "player_tracker")]
+[node name="MazeEndHandlerRs" type="MazeEndHandlerRs" parent="." node_paths=PackedStringArray("maze_cam", "maze_replay", "score_text", "maze_config", "wall_creator", "player_tracker", "solvers")]
 maze_cam = NodePath("../maze world/maze/MazeCameraRs")
 maze_replay = NodePath("../maze world/MazeReplayRs")
 score_text = NodePath("../UI/VBoxContainer/RichTextLabel")
 maze_config = NodePath("../MazeConfigRs")
 wall_creator = NodePath("../maze world/maze/WallCreatorRs")
 player_tracker = NodePath("../maze world/maze/PathHistoryRs")
-replay_time_seconds = 20.0
+solvers = [NodePath("../solvers/right hand rule")]
 
 [node name="solvers" type="Node" parent="."]
 

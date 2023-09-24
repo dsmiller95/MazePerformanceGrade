@@ -13,8 +13,17 @@ macro_rules! assert_some_or_log_err {
         };
     };
 }
-
 pub(crate) use assert_some_or_log_err;
+
+macro_rules! clone_some_or_log_err_none {
+    ($property_name:ident, $self_name:ident) => {
+        let Some($property_name) = $self_name.$property_name.as_ref().map(|x| x.clone()) else {
+            godot_error!("{} is required!", stringify!($property_name));
+            return None;
+        };
+    };
+}
+pub(crate) use clone_some_or_log_err_none;
 
 #[cfg(test)]
 mod tests {
