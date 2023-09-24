@@ -96,7 +96,7 @@ impl MazeReplayOngoing {
                 godot_error!("Could not find mesh for floor");
             }
             Some(mut mesh) => {
-                mesh.set_material_overlay(material);
+                mesh.set_material_override(material);
             }
         }
     }

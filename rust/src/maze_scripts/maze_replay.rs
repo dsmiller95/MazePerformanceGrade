@@ -1,9 +1,8 @@
-use crate::assert_some::assert_some_or_log_err;
 use crate::maze_scripts::coroutines::maze_replay_ongoing::MazeReplayOngoing;
 use crate::maze_scripts::floor_creator::FloorCreatorRs;
 use crate::maze_scripts::helper_classes::historic_position::HistoricPosition;
 use crate::maze_scripts::maze_config::MazeConfigRs;
-use godot::engine::{Material, MeshInstance3D, Time};
+use godot::engine::{Material, Time};
 use godot::prelude::*;
 use std::task::Poll::{Pending, Ready};
 
@@ -60,7 +59,7 @@ impl NodeVirtual for MazeReplayRs {
 
 #[godot_api]
 impl MazeReplayRs {
-    // #WEIRD rust : no async? might be impossible to do coroutines. or perhaps simply not ergonomic. async is hinted at for godot 3.x
+    // #WEIRD rust : no async? might be impossible to do coroutines. or perhaps simply not ergonomic. async may be available for rust on godot 3.x
     // #WEIRD rust : forces us to implement a custom coroutine-like framework
     pub fn begin_path_replay(
         &mut self,
@@ -94,36 +93,5 @@ impl MazeReplayRs {
         let time_ms = Time::singleton().get_ticks_msec();
 
         MazeReplayOngoing::try_new(self, path.into(), time_ms, scale)
-    }
-
-    pub fn highlight_tile(&mut self, tile: Vector2i, material: Gd<Material>) {
-        assert_some_or_log_err!(maze_config, self);
-        //assert_some_or_log_err!(floors, self);
-        let Some(floors) = &mut self.floors else {
-            if true {
-                use godot::private::class_macros::godot_error;
-
-                godot_error!("{} is required!", stringify!(floors));
-            }
-            return;
-        };
-        godot_print!("replaying over tile {}", tile);
-
-        let size = maze_config.bind().size;
-        let floors = floors.bind_mut();
-        let floor = floors
-            .floors_indexed
-            .get((tile.x + tile.y * size.x) as usize);
-        let mesh = floor
-            .find_child("MeshInstance3D".into())
-            .and_then(|x| x.try_cast::<MeshInstance3D>());
-        match mesh {
-            None => {
-                godot_error!("Could not find mesh for floor");
-            }
-            Some(mut mesh) => {
-                mesh.set_material_overlay(material);
-            }
-        }
     }
 }
