@@ -1,5 +1,6 @@
 mod coroutines;
 mod floor_creator;
+mod floor_creator_example;
 mod helper_classes;
 mod maze_camera;
 mod maze_config;
