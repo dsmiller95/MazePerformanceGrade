@@ -10,22 +10,7 @@ hopefully this makes it easier to compare and contrast between the three.
 
 ## Gameplay
 
-![image](_readme_assets/maze_grader.mp4)
-
-![](_readme_assets/maze_grader.mp4)
-
-_readme_assets/maze_grader.mp4
-
-./_readme_assets/maze_grader.mp4
-
-<video width="320" height="240" controls>
-  <source src="_readme_assets/maze_grader.mp4" type="video/mp4">
-</video>
-
-
-
 https://github.com/dsmiller95/MazePerformanceGrade/assets/3212309/492119f6-802d-427e-b04f-4cbc97919a15
-
 
 
 ## Weird
