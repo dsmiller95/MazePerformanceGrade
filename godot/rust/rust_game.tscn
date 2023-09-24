@@ -34,9 +34,8 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 wall_prefab = ExtResource("5_gfqbq")
 maze_config = NodePath("../../../MazeConfigRs")
 
-[node name="FloorCreatorRs" type="FloorCreatorRs" parent="maze world/maze" node_paths=PackedStringArray("maze_config")]
+[node name="FloorCreatorRs" type="FloorCreatorRs" parent="maze world/maze"]
 floor_prefab = ExtResource("2_m8u8c")
-maze_config = NodePath("../../../MazeConfigRs")
 
 [node name="MazeFeaturesRs" type="MazeFeaturesRs" parent="maze world/maze" node_paths=PackedStringArray("maze_config", "exit_feature", "entry_feature")]
 maze_config = NodePath("../../../MazeConfigRs")

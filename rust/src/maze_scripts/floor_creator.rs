@@ -34,8 +34,13 @@ impl Node3DVirtual for FloorCreatorRs {
     }
 
     fn ready(&mut self) {
-        assert_some_or_log_err!(floor_prefab, self);
-        assert_some_or_log_err!(maze_config, self);
+        let floor_prefab = self
+            .floor_prefab
+            .as_ref()
+            .expect("floor_prefab is required");
+        let maze_config = self.maze_config.as_ref().expect("maze_config is required");
+        // assert_some_or_log_err!(floor_prefab, self);
+        // assert_some_or_log_err!(maze_config, self);
 
         // #WEIRD rust : gotta call bind() to access properties directly. Although! this enforces rusts borrow check rules nicely.
         let size = maze_config.bind().size;
